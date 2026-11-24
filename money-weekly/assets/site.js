@@ -86,6 +86,20 @@
     }
   } catch (e) { /* 오래된 브라우저는 무시 */ }
 
+  // 6-1) 방문 통계 이벤트 (GoatCounter, 쿠키 없음) — 데이터맨이 읽는다
+  var page = (location.pathname.split('/').pop() || 'home').replace(/\.html$/, '');
+  function track(name, title) {
+    try { if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({ path: name + '@' + page, title: title || name, event: true }); } catch (e) { /* 통계 실패는 무시 */ }
+  }
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest && e.target.closest('[data-ask],[data-share],[data-event]');
+    if (!el) return;
+    if (el.hasAttribute('data-ask')) track('ask', el.textContent.trim());
+    else if (el.hasAttribute('data-share')) track('share', '공유 버튼');
+    else track(el.getAttribute('data-event'), el.textContent.trim());
+  });
+  window.__mwTrack = track;
+
   // 7) 공유하기 (카톡 공유 시트 / 링크 복사)
   var toast = document.querySelector('.toast');
   function say(msg) { if (!toast) return; toast.textContent = msg; toast.classList.add('on'); clearTimeout(say.t); say.t = setTimeout(function () { toast.classList.remove('on'); }, 2200); }
@@ -136,8 +150,10 @@
   if (deck) {
     var slides = deck.querySelectorAll('.slide'), fill = document.querySelector('.deck-bar .fill'), count = document.querySelector('.deck-bar .count');
     var cur = 0;
+    var finished = false;
     function mark(i) {
       cur = i;
+      if (i === slides.length - 1 && !finished) { finished = true; track('cards-finished', '카드뉴스 끝까지 봄'); }
       slides.forEach(function (s, k) { s.classList.toggle('on', k === i); });
       if (fill) fill.style.transform = 'scaleX(' + ((i + 1) / slides.length) + ')';
       if (count) count.textContent = (i + 1) + ' / ' + slides.length;

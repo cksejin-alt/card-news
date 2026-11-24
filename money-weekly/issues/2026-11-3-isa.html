@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap">
 <script>document.documentElement.classList.add('js');setTimeout(function(){document.querySelectorAll('.reveal').forEach(function(e){var r=e.getBoundingClientRect();if(r.top<innerHeight)e.classList.add('in')})},2500)</script>
-<link rel="stylesheet" href="../assets/site.css?v=4">
+<link rel="stylesheet" href="../assets/site.css?v=5">
 <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js" defer></script>
 </head>
 <body>
@@ -250,7 +250,7 @@
           <span class="ico" style="width:56px;height:56px;border-radius:18px;background:var(--green-soft);color:var(--green-d);display:grid;place-items:center;font-size:28px"><iconify-icon icon="solar:file-download-linear"></iconify-icon></span>
           <h3 style="font-size:24px;font-weight:800;letter-spacing:-.02em">ISA 가이드 (PDF)</h3>
           <p style="color:var(--muted)">카드뉴스 내용을 A4로 정리했어요. 인쇄하거나 가족에게 보내기 좋아요.</p>
-          <a class="btn btn-primary" href="../assets/issues/2026-11-3-isa/ISA-guide.pdf" download>PDF 받기<span class="ic"><iconify-icon icon="solar:download-minimalistic-linear"></iconify-icon></span></a>
+          <a class="btn btn-primary" href="../assets/issues/2026-11-3-isa/ISA-guide.pdf" download data-event="pdf-download">PDF 받기<span class="ic"><iconify-icon icon="solar:download-minimalistic-linear"></iconify-icon></span></a>
           <button type="button" class="btn btn-ghost" data-zoom style="justify-content:center"><img src="../assets/issues/2026-11-3-isa/infographic.png" alt="ISA 한 장 요약 인포그래픽" hidden>인포그래픽 크게 보기</button>
         </div></div>
       </div>
@@ -285,8 +285,10 @@
   <div class="wrap">
     <div class="brand"><span class="logo"><iconify-icon icon="solar:wallet-money-bold" width="18"></iconify-icon></span>이번 주 돈되는 정보</div>
     <p class="disc">본 자료는 일반적인 정보 제공용이며 특정 금융상품의 가입 권유가 아닙니다. 투자상품은 원금 손실이 발생할 수 있습니다. 세법은 개정될 수 있으니 가입 전 금융회사 및 국세청 안내를 꼭 확인하세요. (2026년 11월 기준)</p>
+    <p class="disc" style="margin-top:10px">방문 통계 안내: 자료 개선을 위해 GoatCounter로 페이지 조회와 버튼 클릭 수만 집계합니다. 쿠키를 쓰지 않으며 이름·연락처 등 개인을 알아볼 수 있는 정보는 수집하지 않습니다.</p>
   </div>
 </footer>
+<script data-goatcounter="https://moneyweekly.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 
 <div class="dock" role="region" aria-label="빠른 이동">
   <button type="button" data-share><iconify-icon icon="solar:share-linear"></iconify-icon>공유</button>
@@ -294,6 +296,6 @@
 </div>
 <div class="lightbox" role="dialog" aria-modal="true" aria-label="크게 보기"><img alt=""><button type="button" aria-label="닫기"><iconify-icon icon="solar:close-circle-linear"></iconify-icon></button></div>
 <div class="toast" role="status" aria-live="polite"></div>
-<script src="../assets/site.js?v=4" defer></script>
+<script src="../assets/site.js?v=5" defer></script>
 </body>
 </html>
