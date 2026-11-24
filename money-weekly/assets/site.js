@@ -204,6 +204,44 @@
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); if (e.key === 'Tab' && !lb.hidden) { e.preventDefault(); lbClose.focus(); } });
   }
 
+  // 10-1) 자가진단: [data-quiz] 안의 .q 단계별 질문 → .res[data-res] 결과
+  document.querySelectorAll('[data-quiz]').forEach(function (qz) {
+    var qs = qz.querySelectorAll('.q'), bars = qz.querySelectorAll('.steps-bar i'), ans = {};
+    function show(i) {
+      qs.forEach(function (q, k) { q.classList.toggle('on', k === i); });
+      bars.forEach(function (b, k) { b.classList.toggle('on', k <= i); });
+    }
+    function decide() {
+      var g = ans.when, use = ans.use;
+      if (g === 'after') return 'no';
+      if (g === 'unknown') return 'unknown';
+      return use === 'often' ? 'maybe' : 'high';
+    }
+    qz.querySelectorAll('.q').forEach(function (q, i) {
+      q.querySelectorAll('button[data-v]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          ans[q.getAttribute('data-key')] = b.getAttribute('data-v');
+          if (i < qs.length - 1) { show(i + 1); return; }
+          qs.forEach(function (x) { x.classList.remove('on'); });
+          bars.forEach(function (x) { x.classList.add('on'); });
+          var r = decide();
+          qz.querySelectorAll('.res').forEach(function (x) { x.classList.toggle('on', x.getAttribute('data-res') === r); });
+          track('quiz-' + r, '자가진단 결과');
+        });
+      });
+    });
+    var again = qz.querySelectorAll('[data-again]');
+    again.forEach(function (a) { a.addEventListener('click', function () { ans = {}; qz.querySelectorAll('.res').forEach(function (x) { x.classList.remove('on'); }); show(0); }); });
+    show(0);
+  });
+
+  // 10-2) 마감 카운트다운: [data-deadline="YYYY-MM-DD"]
+  document.querySelectorAll('[data-deadline]').forEach(function (el) {
+    var end = new Date(el.getAttribute('data-deadline') + 'T23:59:59+09:00');
+    var days = Math.ceil((end - new Date()) / 86400000);
+    el.textContent = days > 0 ? 'D-' + days : '마감';
+  });
+
   // 11) ISA 절세 계산기 (단순 예시)
   var range = document.getElementById('profit');
   if (range) {

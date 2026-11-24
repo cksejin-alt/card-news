@@ -16,7 +16,8 @@
   --shadow: 0 30px 60px -28px rgba(27, 42, 74, .28);
   --shadow-soft: 0 18px 40px -24px rgba(27, 42, 74, .22);
   --font: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  --display: 'Fraunces', 'Pretendard', Georgia, serif;
+  /* Fraunces에는 한글이 없으므로 한글은 반드시 Pretendard로 (바탕체로 떨어지면 휴대폰에서 깨져 보임) */
+  --display: 'Fraunces', 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
@@ -383,6 +384,83 @@ section { position: relative; }
 .lightbox[hidden] { display: none; }
 .lightbox.tall { place-items: start center; padding-top: 76px; }
 .lightbox.tall img { max-height: none; width: min(94vw, 760px); max-width: none; }
+
+/* ---------- 자가진단 (나도 해당될까?) ---------- */
+.quiz .core { padding: 28px 22px; }
+@media (min-width: 860px) { .quiz .core { padding: 40px; display: grid; grid-template-columns: .8fr 1.2fr; gap: 40px; align-items: start; } }
+.quiz .qnum { font-size: 13px; font-weight: 800; color: var(--green-d); letter-spacing: .08em; }
+.quiz .q { display: none; animation: qIn .6s var(--spring) both; }
+.quiz .q.on { display: block; }
+@keyframes qIn { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+.quiz .q h4 { font-size: clamp(1.25rem, 3.6vw, 1.6rem); font-weight: 800; letter-spacing: -.02em; line-height: 1.35; margin: 6px 0 18px; }
+.quiz .opts { display: grid; gap: 10px; }
+.quiz .opts button { text-align: left; min-height: 60px; padding: 14px 18px; border-radius: 18px; border: 1.5px solid var(--line); background: #fff; font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 12px; transition: transform .5s var(--spring), border-color .5s var(--spring), background .5s var(--spring); }
+.quiz .opts button small { display: block; font-weight: 600; font-size: 13px; color: var(--muted); }
+.quiz .opts button:hover { transform: translateX(4px); border-color: var(--green); background: var(--green-soft); }
+.quiz .opts button .dot { flex: 0 0 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(27,42,74,.25); }
+.quiz .steps-bar { display: flex; gap: 6px; margin: 14px 0 4px; }
+.quiz .steps-bar i { flex: 1; height: 5px; border-radius: 5px; background: rgba(27,42,74,.1); transition: background .5s var(--spring); }
+.quiz .steps-bar i.on { background: var(--green); }
+.quiz .res { display: none; animation: qIn .7s var(--spring) both; }
+.quiz .res.on { display: block; }
+.quiz .res .badge { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 800; padding: 8px 14px; border-radius: 999px; }
+.quiz .res.high .badge { background: var(--green-d); color: #fff; }
+.quiz .res.maybe .badge, .quiz .res.unknown .badge { background: var(--mark); color: var(--ink); }
+.quiz .res.no .badge { background: rgba(27,42,74,.08); color: var(--ink); }
+.quiz .res h4 { font-size: clamp(1.4rem, 4vw, 1.9rem); font-weight: 800; letter-spacing: -.02em; line-height: 1.3; margin: 14px 0 10px; }
+.quiz .res p { color: var(--ink-2); font-size: 15.5px; }
+.quiz .res .row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+.quiz .again { font-size: 14px; font-weight: 700; color: var(--muted); text-decoration: underline; margin-top: 14px; display: inline-block; }
+
+/* 신청 기한 카운트다운 */
+.deadline { display: inline-flex; align-items: center; gap: 14px; padding: 12px 18px 12px 12px; border-radius: 20px; background: var(--ink); color: #fff; box-shadow: var(--shadow-soft); }
+.deadline .d { font-family: var(--display); font-size: 30px; font-weight: 700; color: var(--mark); min-width: 92px; text-align: center; padding: 6px 10px; border-radius: 14px; background: rgba(255,255,255,.08); }
+.deadline span { font-size: 13.5px; font-weight: 700; line-height: 1.45; opacity: .9; }
+
+/* 금액 비교 (전→후) */
+.drop { display: grid; gap: 14px; }
+@media (min-width: 760px) { .drop { grid-template-columns: 1fr auto 1fr; align-items: center; } }
+.drop .from .core, .drop .to .core { padding: 26px 24px; text-align: center; }
+.drop .from .v { font-family: var(--display); font-size: clamp(2.4rem, 7vw, 3.4rem); font-weight: 700; color: #9AA3B5; text-decoration: line-through; text-decoration-thickness: 3px; }
+.drop .to .core { background: linear-gradient(155deg, var(--green), var(--green-d)); color: #fff; }
+.drop .to .v { font-family: var(--display); font-size: clamp(2.8rem, 8vw, 4rem); font-weight: 700; color: #fff; }
+.drop .k { font-size: 14px; font-weight: 800; opacity: .8; }
+.drop .arrow { justify-self: center; width: 56px; height: 56px; border-radius: 50%; background: var(--mark); display: grid; place-items: center; font-size: 26px; animation: nudge 1.6s ease-in-out infinite; }
+@media (max-width: 759px) { .drop .arrow { transform: rotate(90deg); animation: none; } }
+
+/* 심의 전 초안 표시 */
+.draft-banner { position: fixed; z-index: 45; left: 0; right: 0; top: 0; background: repeating-linear-gradient(45deg, #C2550F, #C2550F 12px, #A9480C 12px, #A9480C 24px); color: #fff; text-align: center; font-size: 13px; font-weight: 800; padding: 6px 10px; letter-spacing: .02em; }
+.draft-banner + .nav { top: 40px; }
+
+/* ---------- 심의용 인쇄 ---------- */
+.print-only { display: none; }
+@media print {
+  @page { size: A4; margin: 10mm; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  html, body { background: var(--cream) !important; }
+  .nav, .dock, .toast, .grain, .aura, .progress, .lightbox, .again { display: none !important; }
+  .draft-banner { position: static; }
+  .reveal, .words .w { opacity: 1 !important; transform: none !important; filter: none !important; animation: none !important; transition: none !important; }
+  .float, .pulse, .arrow, .hint iconify-icon { animation: none !important; }
+  .issue-hero { padding-top: 24px; }
+  .sec { padding: 28px 0; }
+  .quiz .q, .quiz .res { display: block !important; animation: none !important; opacity: 1 !important; transform: none !important; margin-bottom: 18px; padding-top: 12px; border-top: 1px dashed rgba(27,42,74,.2); break-inside: avoid; }
+  .quiz .core { display: block !important; }
+  .quiz .core > div:first-child img { display: none; }
+  .quiz, .quiz .bezel, .quiz.bezel { break-inside: auto !important; }
+  .quiz .q::before { content: "[자가진단 질문]"; display: block; font-size: 11px; font-weight: 800; color: #C2550F; }
+  .quiz .res::before { content: "[자가진단 결과 화면 · 답에 따라 하나만 표시됨]"; display: block; font-size: 11px; font-weight: 800; color: #C2550F; margin-bottom: 6px; }
+  .bezel, .rule, .final, .quiz, section { break-inside: avoid; }
+  .print-only { display: block; break-after: page; }
+}
+.print-cover { padding: 4mm 4mm 0; }
+.print-cover h1 { font-size: 21px; font-weight: 800; letter-spacing: -.02em; }
+.print-cover table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; line-height: 1.5; }
+.print-cover th, .print-cover td { border: 1px solid rgba(27,42,74,.25); padding: 5px 8px; text-align: left; vertical-align: top; }
+.print-cover img { max-width: 82%; display: block; margin: 8px auto 0; }
+.print-cover th { width: 26%; background: rgba(27,42,74,.06); }
+.print-cover img { width: 100%; border: 1px solid rgba(27,42,74,.2); border-radius: 10px; margin-top: 10px; }
+.print-cover .warn { margin-top: 12px; padding: 10px 12px; border-radius: 10px; background: #FCE9DC; font-size: 12.5px; font-weight: 700; }
 
 /* ---------- 이렇게 만드세요 (실행 안내) ---------- */
 .types { display: grid; gap: 14px; margin-top: 36px; }
