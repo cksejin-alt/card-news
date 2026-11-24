@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap">
 <script>document.documentElement.classList.add('js');setTimeout(function(){document.querySelectorAll('.reveal').forEach(function(e){var r=e.getBoundingClientRect();if(r.top<innerHeight)e.classList.add('in')})},2500)</script>
-<link rel="stylesheet" href="../assets/site.css?v=9">
+<link rel="stylesheet" href="../assets/site.css?v=10">
 <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js" defer></script>
 </head>
 <body>
@@ -36,14 +36,14 @@
   <div class="nav-links">
     <a href="#cards">카드뉴스</a><a href="#calc">계산기</a><a href="#howto">만드는 법</a><a href="#download">자료 받기</a>
   </div>
-  <button type="button" class="nav-cta" data-share>공유<span class="dot"><iconify-icon icon="solar:share-linear" width="15"></iconify-icon></span></button>
+  <a class="nav-cta" href="../#archive" data-keep-from data-event="more-nav">다른 돈 정보<span class="dot"><iconify-icon icon="solar:arrow-right-linear" width="15"></iconify-icon></span></a>
 </nav>
 
 <main>
   <header class="issue-hero">
     <div class="wrap grid">
       <div>
-        <div class="crumbs reveal"><a href="../" data-keep-from><iconify-icon icon="solar:alt-arrow-left-linear"></iconify-icon>전체 자료</a><span class="tag">세금·절세</span></div>
+        <a class="more-pill reveal" href="../#archive" data-keep-from data-event="more-top"><span class="ico"><iconify-icon icon="solar:wallet-money-bold"></iconify-icon></span><span><b>다른 돈되는 정보 더 보기</b><small>지원금·절세·연금 소식 모아보기</small></span><span class="go"><iconify-icon icon="solar:arrow-right-linear"></iconify-icon></span></a>
         <div class="sender"><span class="av"></span><span><b data-from></b> 님이 보내드린 자료예요</span></div>
         <span class="eyebrow reveal"><span class="pulse"></span>2026년 11월 3주차</span>
         <h1 class="h-display" style="margin-top:20px" data-words>아직도 <span class="accent">ISA</span><br>모르세요?</h1>
@@ -296,6 +296,6 @@
 </div>
 <div class="lightbox" role="dialog" aria-modal="true" aria-label="크게 보기"><img alt=""><button type="button" aria-label="닫기"><iconify-icon icon="solar:close-circle-linear"></iconify-icon></button></div>
 <div class="toast" role="status" aria-live="polite"></div>
-<script src="../assets/site.js?v=9" defer></script>
+<script src="../assets/site.js?v=10" defer></script>
 </body>
 </html>
