@@ -212,6 +212,8 @@
       bars.forEach(function (b, k) { b.classList.toggle('on', k <= i); });
     }
     function decide() {
+      // 페이지마다 판정 규칙이 다르면 window.quizDecide(ans) 를 먼저 정의해 둔다
+      if (typeof window.quizDecide === 'function') return window.quizDecide(ans);
       var g = ans.when, use = ans.use;
       if (g === 'after') return 'no';
       if (g === 'unknown') return 'unknown';
@@ -237,9 +239,12 @@
 
   // 10-2) 마감 카운트다운: [data-deadline="YYYY-MM-DD"]
   document.querySelectorAll('[data-deadline]').forEach(function (el) {
-    var end = new Date(el.getAttribute('data-deadline') + 'T23:59:59+09:00');
-    var days = Math.ceil((end - new Date()) / 86400000);
-    el.textContent = days > 0 ? 'D-' + days : '마감';
+    // 한국 날짜 기준 달력 일수 (마감 당일은 D-DAY, 다음 날부터 '마감')
+    var dayMs = 86400000, kst = 9 * 3600000;
+    var end = Date.parse(el.getAttribute('data-deadline') + 'T00:00:00Z');
+    var today = Math.floor((Date.now() + kst) / dayMs) * dayMs;
+    var days = Math.round((end - today) / dayMs);
+    el.textContent = days > 0 ? 'D-' + days : (days === 0 ? 'D-DAY' : '마감');
   });
 
   // 11) ISA 절세 계산기 (단순 예시)
