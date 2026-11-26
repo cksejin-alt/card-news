@@ -79,6 +79,31 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .nav-cta:active { transform: scale(.97); }
 .nav-cta .dot { width: 26px; height: 26px; border-radius: 50%; background: rgba(255,255,255,.14); display: grid; place-items: center; }
 
+/* '다른 돈 정보' 강조: 초록 + NEW 배지 + 퍼지는 링 + 잠깐 뜨는 말풍선 */
+.nav-cta.more { position: relative; background: linear-gradient(135deg, var(--green), var(--green-d)); box-shadow: 0 10px 24px -10px rgba(13, 135, 99, .85); }
+.nav-cta.more::after {
+  content: ""; position: absolute; inset: -4px; border-radius: 999px; border: 2px solid var(--green);
+  opacity: 0; pointer-events: none; animation: ctaRing 2.6s var(--spring) 1.2s infinite;
+}
+@keyframes ctaRing { 0% { opacity: .75; transform: scale(.94); } 70%, 100% { opacity: 0; transform: scale(1.16); } }
+.nav-cta .new {
+  position: absolute; top: -8px; right: -6px; background: var(--mark); color: var(--ink);
+  font-size: 10px; font-weight: 800; letter-spacing: .04em; padding: 3px 7px; border-radius: 999px;
+  box-shadow: 0 4px 10px -4px rgba(27, 42, 74, .5); animation: newBob 2.2s ease-in-out infinite;
+}
+@keyframes newBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+.nav-cta .tip {
+  position: absolute; top: calc(100% + 12px); right: 0; white-space: nowrap; pointer-events: none;
+  background: var(--ink); color: #fff; font-size: 12.5px; font-weight: 700; padding: 9px 13px; border-radius: 12px;
+  box-shadow: var(--shadow-soft); opacity: 0; animation: tipIn .7s var(--spring) 1.6s forwards, tipOut .5s ease 8s forwards;
+}
+.nav-cta .tip::before { content: ""; position: absolute; top: -5px; right: 20px; width: 10px; height: 10px; background: var(--ink); transform: rotate(45deg); }
+.nav-cta .tip b { color: var(--mark); }
+@keyframes tipIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes tipOut { to { opacity: 0; transform: translateY(-4px); visibility: hidden; } }
+@media (prefers-reduced-motion: reduce) { .nav-cta.more::after, .nav-cta .new { animation: none; } }
+@media print { .nav-cta .tip, .nav-cta .new { display: none; } }
+
 /* ---------- 공통 요소 ---------- */
 .eyebrow {
   display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: .14em;
