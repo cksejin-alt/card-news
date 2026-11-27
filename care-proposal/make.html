@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>간병인보험 제안서 만들기</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#FBF8F2">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Gowun+Batang:wght@700&display=swap">
+  <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js" defer></script>
+  <style>
+    :root {
+      --ink: #16140F; --paper: #FBF8F2; --cream: #F4EEE3; --sand: #EFE6D8;
+      --text: #1D1B19; --text2: #5E574D; --line: rgba(29,27,25,.10);
+      --amber: #D9A15B; --amber-d: #B5762A; --blue: #0079B0;
+      --ease: cubic-bezier(.16, 1, .3, 1);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Pretendard Variable', Pretendard, system-ui, sans-serif; color: var(--text); word-break: keep-all;
+      background: radial-gradient(80% 60% at 90% 0%, #FFFDF8, rgba(255,253,248,0) 60%), radial-gradient(60% 50% at 0% 100%, rgba(217,161,91,.16), rgba(217,161,91,0) 65%), var(--sand);
+      min-height: 100dvh; }
+    .wrap { max-width: 1240px; margin: 0 auto; padding: 32px clamp(16px, 4vw, 40px) 64px; }
+    header { margin-bottom: 26px; }
+    .pill { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; font-size: 12.5px; font-weight: 700; color: var(--amber-d); background: rgba(181,118,42,.1); box-shadow: inset 0 0 0 1px rgba(181,118,42,.22); }
+    h1 { font-family: 'Gowun Batang', serif; font-size: clamp(28px, 4vw, 44px); letter-spacing: -.02em; margin: 14px 0 6px; line-height: 1.25; }
+    .sub { margin: 0; color: var(--text2); font-size: 15.5px; line-height: 1.6; }
+    .grid { display: grid; grid-template-columns: minmax(0, 1fr) 400px; gap: 28px; align-items: start; }
+    .bezel { padding: 6px; border-radius: 30px; background: rgba(29,27,25,.04); box-shadow: inset 0 0 0 1px rgba(29,27,25,.06); }
+    .core { border-radius: 24px; background: #fff; box-shadow: 0 30px 60px -30px rgba(80,56,24,.25); padding: clamp(20px, 3vw, 32px); }
+    .sec-title { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text2); margin: 0 0 12px; }
+    .sec-title iconify-icon { color: var(--amber-d); font-size: 17px; }
+    .sec-title small { font-weight: 500; }
+    .group + .group { margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--line); }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    label { display: block; }
+    .lab { display: flex; justify-content: space-between; align-items: baseline; font-size: 14px; font-weight: 700; margin-bottom: 7px; }
+    .lab small { font-weight: 500; color: var(--text2); font-size: 12px; }
+    .field { position: relative; }
+    input { width: 100%; height: 52px; border: 0; border-radius: 14px; padding: 0 16px; font: inherit; font-size: 17px; font-weight: 600; color: var(--text);
+      background: var(--paper); box-shadow: inset 0 0 0 1px var(--line); transition: box-shadow .4s var(--ease), background .4s var(--ease); }
+    input:focus { outline: none; background: #fff; box-shadow: inset 0 0 0 2px var(--amber-d), 0 8px 24px -12px rgba(181,118,42,.4); }
+    .field .unit { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--text2); font-weight: 600; pointer-events: none; }
+    .field.has-unit input { padding-right: 44px; text-align: right; font-family: 'Fraunces', 'Pretendard Variable', serif; font-size: 19px; }
+    .age { margin-top: 12px; max-width: calc(50% - 6px); }
+    .plan { padding: 16px; border-radius: 18px; background: var(--paper); box-shadow: inset 0 0 0 1px var(--line); transition: box-shadow .5s var(--ease), background .5s var(--ease); }
+    .plan + .plan { margin-top: 12px; }
+    .plan.is-on.plan--a { background: rgba(217,161,91,.12); box-shadow: inset 0 0 0 2px rgba(181,118,42,.45); }
+    .plan.is-on.plan--b { background: rgba(0,121,176,.06); box-shadow: inset 0 0 0 2px rgba(0,121,176,.35); }
+    .plan__head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .tag { font-size: 12px; font-weight: 700; color: #fff; padding: 3px 10px; border-radius: 999px; flex: none; }
+    .tag--a { background: var(--amber-d); } .tag--b { background: var(--blue); }
+    .plan__head b { font-size: 16px; }
+    .plan__head .desc { font-size: 12.5px; color: var(--text2); margin-left: auto; }
+    .plan input { background: #fff; }
+    .mode { display: flex; align-items: center; gap: 12px; margin-top: 18px; padding: 14px 16px; border-radius: 16px; background: var(--ink); color: var(--cream); transition: background .5s var(--ease); }
+    .mode iconify-icon { font-size: 22px; color: var(--amber); flex: none; }
+    .mode b { display: block; font-size: 15.5px; }
+    .mode span { color: #B9AF9F; font-size: 13px; }
+    .mode.is-empty { background: #8A8173; }
+    .mode.is-empty span { color: #EFE6D8; }
+    .out { margin-top: 22px; }
+    .linkbox { display: flex; gap: 8px; align-items: center; padding: 6px 6px 6px 14px; border-radius: 16px; background: var(--paper); box-shadow: inset 0 0 0 1px var(--line); }
+    .linkbox code { flex: 1; min-width: 0; font-size: 12.5px; color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; padding: 0 18px; border: 0; border-radius: 999px; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; text-decoration: none; color: inherit;
+      transition: transform .5s var(--ease), box-shadow .5s var(--ease), opacity .3s; }
+    .btn:hover { transform: translateY(-2px); } .btn:active { transform: scale(.97); }
+    .btn[disabled], .btn.is-off { opacity: .4; pointer-events: none; }
+    .btn--main { grid-column: 1 / -1; background: var(--amber); color: var(--ink); box-shadow: 0 14px 30px -14px rgba(181,118,42,.7); }
+    .btn--line { background: #fff; color: var(--text); box-shadow: inset 0 0 0 1px var(--line); }
+    .btn--copy { flex: none; min-height: 40px; padding: 0 14px; font-size: 13px; background: var(--ink); color: var(--cream); }
+    .hint { font-size: 12.5px; color: var(--text2); margin: 12px 0 0; line-height: 1.65; }
+    .err { color: #B3261E; font-size: 12.5px; margin: 6px 0 0; }
+    .preview { position: sticky; top: 24px; }
+    .phone { position: relative; width: 100%; aspect-ratio: 9 / 18.5; border-radius: 44px; padding: 12px; background: var(--ink); box-shadow: 0 40px 80px -30px rgba(22,20,15,.55), inset 0 0 0 2px #2A2620; }
+    .phone iframe { width: 100%; height: 100%; border: 0; border-radius: 34px; background: var(--paper); }
+    .phone__notch { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); width: 92px; height: 24px; border-radius: 999px; background: var(--ink); z-index: 2; }
+    .preview__cap { text-align: center; font-size: 13px; color: var(--text2); margin: 14px 0 0; }
+    .toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom)); transform: translate(-50%, 20px); opacity: 0; padding: 13px 20px; border-radius: 999px; background: var(--ink); color: var(--cream); font-size: 14px; font-weight: 600; transition: all .6s var(--ease); pointer-events: none; z-index: 10; white-space: nowrap; }
+    .toast.is-on { transform: translate(-50%, 0); opacity: 1; }
+    @media (max-width: 980px) { .grid { grid-template-columns: 1fr; } .preview { position: static; max-width: 360px; width: 100%; margin: 0 auto; } }
+    @media (max-width: 520px) { .row { grid-template-columns: 1fr; } .age { max-width: none; } .plan__head .desc { display: none; } .btns { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <span class="pill"><iconify-icon icon="solar:magic-stick-3-linear"></iconify-icon>컨설턴트 전용</span>
+      <h1>간병인보험 제안서 만들기</h1>
+      <p class="sub">입력하면 고객님께 보낼 제안서 링크가 바로 만들어져요. 옆 화면에서 고객님이 보실 모습을 미리 확인하세요.</p>
+    </header>
+
+    <div class="grid">
+      <div class="bezel"><div class="core">
+        <form id="form" autocomplete="off" novalidate>
+          <div class="group">
+            <p class="sec-title"><iconify-icon icon="solar:user-id-linear"></iconify-icon>누가, 누구에게</p>
+            <div class="row">
+              <label><span class="lab">컨설턴트 이름</span><div class="field"><input id="c" maxlength="12" placeholder="예) 홍길동"></div></label>
+              <label><span class="lab">고객 성함</span><div class="field"><input id="to" maxlength="12" placeholder="예) 박재철"></div></label>
+            </div>
+            <label class="age"><span class="lab">고객 나이 <small>가입 나이</small></span><div class="field has-unit"><input id="age" inputmode="numeric" maxlength="3" placeholder="58"><span class="unit">세</span></div></label>
+            <p class="err" id="ageErr"></p>
+          </div>
+
+          <div class="group">
+            <p class="sec-title"><iconify-icon icon="solar:wallet-money-linear"></iconify-icon>월 보험료 <small>· 넣은 상품만 제안서에 나와요</small></p>
+            <div class="plan plan--a" id="planA">
+              <div class="plan__head"><span class="tag tag--a">지원일당</span><b>간병인 지원일당</b><span class="desc">간병인을 직접 보내드림 · 20년 갱신</span></div>
+              <div class="row">
+                <label><span class="lab">월 보험료</span><div class="field has-unit"><input id="a" inputmode="numeric" placeholder="74,508"><span class="unit">원</span></div></label>
+                <label><span class="lab">20년 뒤 예상 <small>선택</small></span><div class="field has-unit"><input id="a20" inputmode="numeric" placeholder="150,000"><span class="unit">원</span></div></label>
+              </div>
+            </div>
+            <div class="plan plan--b" id="planB">
+              <div class="plan__head"><span class="tag tag--b">사용일당</span><b>간병인 사용일당(체증형)</b><span class="desc">쓰고 돌려받음 · 20년납 100세만기</span></div>
+              <label><span class="lab">월 보험료</span><div class="field has-unit"><input id="b" inputmode="numeric" placeholder="101,350"><span class="unit">원</span></div></label>
+            </div>
+            <div class="mode is-empty" id="mode"><iconify-icon icon="solar:info-circle-linear"></iconify-icon><div><b>보험료를 하나 이상 넣어주세요</b><span>넣은 보험료에 따라 제안서 구성이 자동으로 바뀌어요</span></div></div>
+          </div>
+
+          <div class="out">
+            <div class="linkbox"><code id="link">—</code><button type="button" class="btn btn--copy" id="copyLink">링크 복사</button></div>
+            <div class="btns">
+              <button type="button" class="btn btn--main" id="copyMsg"><iconify-icon icon="solar:chat-round-line-linear"></iconify-icon>카톡 보낼 문장 + 링크 복사</button>
+              <a class="btn btn--line" id="open" href="#" target="_blank" rel="noopener"><iconify-icon icon="solar:square-top-down-linear"></iconify-icon>새 창에서 보기</a>
+              <button type="button" class="btn btn--line" id="reset"><iconify-icon icon="solar:restart-linear"></iconify-icon>고객 정보 지우기</button>
+            </div>
+            <p class="hint">컨설턴트 이름만 이 기기에 기억돼요. 고객 정보는 저장되지 않고 링크 안에만 담겨요.<br>20년 뒤 예상 보험료를 비워두면 그 문구와 그래프 점선은 나오지 않아요.</p>
+          </div>
+        </form>
+      </div></div>
+
+      <aside class="preview">
+        <div class="phone"><span class="phone__notch"></span><iframe id="frame" title="제안서 미리보기"></iframe></div>
+        <p class="preview__cap">고객님 휴대폰에서 이렇게 보여요</p>
+      </aside>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+  (() => {
+    'use strict';
+    const $ = (id) => document.getElementById(id);
+    const KEY = 'care-proposal-consultant';
+    const digits = (s) => String(s || '').replace(/[^\d]/g, '');
+    const comma = (s) => { const d = digits(s).slice(0, 8); return d ? Number(d).toLocaleString('ko-KR') : ''; };
+
+    try { const saved = localStorage.getItem(KEY); if (saved) $('c').value = saved; } catch (e) { /* 저장 불가 환경 */ }
+
+    ['a', 'a20', 'b'].forEach((id) => {
+      $(id).addEventListener('input', (e) => {
+        const el = e.target;
+        const fromEnd = el.value.length - (el.selectionStart ?? el.value.length);
+        el.value = comma(el.value);
+        const pos = Math.max(0, el.value.length - fromEnd);
+        try { el.setSelectionRange(pos, pos); } catch (err) { /* 일부 입력기 */ }
+      });
+    });
+    $('age').addEventListener('input', (e) => { e.target.value = digits(e.target.value).slice(0, 3); });
+
+    function state() {
+      const v = {
+        c: $('c').value.trim(), to: $('to').value.trim(), age: digits($('age').value),
+        a: digits($('a').value), a20: digits($('a20').value), b: digits($('b').value),
+      };
+      v.mode = v.a && v.b ? 'both' : v.a ? 'a' : v.b ? 'b' : '';
+      return v;
+    }
+
+    function buildLink(v) {
+      if (!v.mode) return '';
+      const url = new URL(v.mode === 'both' ? './' : `./${v.mode}/`, location.href);
+      const q = new URLSearchParams();
+      if (v.c) q.set('c', v.c);
+      if (v.to) q.set('to', v.to);
+      if (v.age) q.set('age', v.age);
+      if (v.a) q.set('a', v.a);
+      if (v.a && v.a20) q.set('a20', v.a20);
+      if (v.b) q.set('b', v.b);
+      url.search = q.toString();
+      return url.toString();
+    }
+
+    const MODE_TEXT = {
+      a: ['간병인 지원일당만 소개해요', '요양병원 입원일수·간병비 상승 자료와 함께 지원일당의 장점을 보여드려요'],
+      b: ['간병인 사용일당만 소개해요', '일당 체증, 20년납 100세만기, 일당 계산기를 보여드려요'],
+      both: ['두 안 비교 · 지원일당 추천', '요양병원 기준으로 1안(지원일당)이 더 좋아 보이도록 구성돼요'],
+    };
+
+    let timer = null;
+    let lastLink = '';
+    function render() {
+      const v = state();
+      const ageBad = Boolean(v.age) && (Number(v.age) < 1 || Number(v.age) > 119);
+      $('ageErr').textContent = ageBad ? '나이를 다시 확인해 주세요' : '';
+      $('planA').classList.toggle('is-on', Boolean(v.a));
+      $('planB').classList.toggle('is-on', Boolean(v.b));
+      const mode = $('mode');
+      mode.classList.toggle('is-empty', !v.mode);
+      const [t1, t2] = v.mode ? MODE_TEXT[v.mode] : ['보험료를 하나 이상 넣어주세요', '넣은 보험료에 따라 제안서 구성이 자동으로 바뀌어요'];
+      mode.querySelector('b').textContent = t1;
+      mode.querySelector('span').textContent = (v.mode === 'both' && Number(v.a) >= Number(v.b))
+        ? '지원일당 보험료가 더 높아서 "매달 더 가볍게" 문구는 빠져요' : t2;
+
+      const link = ageBad ? '' : buildLink(v);
+      $('link').textContent = link || '—';
+      $('copyLink').disabled = !link;
+      $('copyMsg').disabled = !link;
+      $('open').classList.toggle('is-off', !link);
+      $('open').href = link || '#';
+
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        if (link && link !== lastLink) {
+          lastLink = link;
+          $('frame').src = link;
+        }
+      }, 450);
+      try { if (v.c) localStorage.setItem(KEY, v.c); } catch (e) { /* 저장 불가 환경 */ }
+    }
+
+    const toast = (msg) => {
+      const t = $('toast'); t.textContent = msg; t.classList.add('is-on');
+      clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('is-on'), 2600);
+    };
+    async function copy(text) {
+      try { await navigator.clipboard.writeText(text); return true; } catch (err) {
+        const ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        let ok = false; try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+        ta.remove(); return ok;
+      }
+    }
+
+    ['c', 'to', 'age', 'a', 'a20', 'b'].forEach((id) => $(id).addEventListener('input', render));
+    $('copyLink').addEventListener('click', async () => {
+      toast(await copy(buildLink(state())) ? '링크를 복사했어요' : '복사가 안 됐어요. 링크를 길게 눌러 복사해 주세요');
+    });
+    $('copyMsg').addEventListener('click', async () => {
+      const v = state();
+      const who = v.to ? `${v.to} 고객님` : '고객님';
+      const from = v.c ? `${v.c} 컨설턴트입니다. ` : '';
+      const msg = `${who}, 안녕하세요. ${from}말씀 나눈 간병인보험 안내서를 보내드려요. 편하게 보시고 궁금한 점은 언제든 물어보세요.\n${buildLink(v)}`;
+      toast(await copy(msg) ? '문장과 링크를 복사했어요. 카톡에 붙여넣어 보내세요' : '복사가 안 됐어요');
+    });
+    $('reset').addEventListener('click', () => {
+      ['to', 'age', 'a', 'a20', 'b'].forEach((id) => { $(id).value = ''; });
+      render();
+      $('to').focus();
+    });
+    render();
+  })();
+  </script>
+</body>
+</html>

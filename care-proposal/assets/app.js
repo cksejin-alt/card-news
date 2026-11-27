@@ -6,17 +6,6 @@
   const FINE_POINTER = window.matchMedia('(pointer: fine)').matches;
   const won = (n) => Math.round(n).toLocaleString('ko-KR');
 
-  /* ---------- 받는 분 이름 (?to=이름) ---------- */
-  function applyName() {
-    const raw = new URLSearchParams(location.search).get('to');
-    if (!raw) return;
-    const name = raw.replace(/[<>"'&]/g, '').trim().slice(0, 12);
-    if (!name) return;
-    const label = /님$/.test(name) ? name : `${name} 고객님`;
-    document.querySelectorAll('.js-name').forEach((el) => { el.textContent = label; });
-    document.title = `${label} · 간병인보험 제안서`;
-  }
-
   /* ---------- 제목 단어 분할 ---------- */
   function splitWords(root) {
     let idx = 0;
@@ -220,17 +209,28 @@
     render();
   }
 
-  /* ---------- 보험료 흐름 차트 ---------- */
-  const PLAN_A = { early: 74508, late: 150000 };
-  const PLAN_B = { early: 101350, late: 0 };
+  /* ---------- 보험료 흐름 차트 (값은 config.js의 CARE_CFG) ---------- */
   const YEARS = 30;
   const SWITCH = 20;
+  const plansFromConfig = () => {
+    const cfg = window.CARE_CFG || { a: 74508, aLater: 150000, b: 101350, mode: 'both' };
+    const both = cfg.mode === 'both';
+    const list = [];
+    if (cfg.a) list.push({ key: 'a', name: both ? '1안' : '지원일당', early: cfg.a, late: cfg.aLater || null, color: 'var(--amber-d)' });
+    if (cfg.b) list.push({ key: 'b', name: both ? '2안' : '사용일당', early: cfg.b, late: 0, color: 'var(--blue)' });
+    return list;
+  };
   const premiumAt = (plan, year) => (year <= SWITCH ? plan.early : plan.late);
+  const niceMax = (v) => {
+    const step = v <= 200000 ? 50000 : 100000;
+    return { max: Math.ceil((v * 1.08) / step) * step, step };
+  };
 
   function buildChart() {
     const box = document.getElementById('chart');
     if (!box || box.dataset.built) return;
     box.dataset.built = '1';
+    const plans = plansFromConfig();
     const NS = 'http://www.w3.org/2000/svg';
     const el = (tag, attrs, parent) => {
       const n = document.createElementNS(NS, tag);
@@ -248,10 +248,11 @@
       const W = box.clientWidth;
       const H = box.clientHeight;
       const narrow = W < 520;
-      const m = { t: 24, r: narrow ? 14 : 120, b: 34, l: narrow ? 40 : 56 };
+      const m = { t: 24, r: narrow ? 14 : 130, b: 34, l: narrow ? 44 : 60 };
       const iw = W - m.l - m.r;
       const ih = H - m.t - m.b;
-      const yMax = 160000;
+      const peak = Math.max(...plans.map((p) => Math.max(p.early, p.late || 0)));
+      const { max: yMax, step } = niceMax(peak);
       const x = (yr) => m.l + (yr / YEARS) * iw;
       const y = (v) => m.t + ih - (v / yMax) * ih;
 
@@ -259,16 +260,16 @@
       box.insertBefore(svg, tip);
 
       el('rect', { class: 'zone', x: x(SWITCH), y: m.t, width: x(YEARS) - x(SWITCH), height: ih, rx: 8 }, svg);
-      const zl = el('text', { class: 'dlabel dlabel--sub', x: x(SWITCH) + 8, y: y(PLAN_A.late) + (narrow ? 34 : 40) }, svg);
-      zl.textContent = narrow ? '갱신 예상' : '21년째~ 갱신 예상';
+      const zl = el('text', { class: 'dlabel dlabel--sub', x: x(SWITCH) + 8, y: m.t + 18 }, svg);
+      zl.textContent = narrow ? '21년째~' : '21년째부터';
 
       const grid = el('g', { class: 'grid' }, svg);
       const axis = el('g', { class: 'axis' }, svg);
-      [0, 50000, 100000, 150000].forEach((v) => {
+      for (let v = 0; v <= yMax; v += step) {
         el('line', { x1: m.l, x2: m.l + iw, y1: y(v), y2: y(v) }, grid);
         const t = el('text', { x: m.l - 10, y: y(v) + 4, 'text-anchor': 'end' }, axis);
         t.textContent = v === 0 ? '0' : `${v / 10000}만`;
-      });
+      }
       [1, 5, 10, 15, 20, 25, 30].forEach((yr) => {
         const t = el('text', { x: x(yr), y: H - 10, 'text-anchor': 'middle' }, axis);
         t.textContent = `${yr}년`;
@@ -279,50 +280,59 @@
       const clip = el('clipPath', { id: clipId }, defs);
       const clipRect = el('rect', { x: 0, y: 0, width: animate && !REDUCED ? 0 : W, height: H }, clip);
       const lines = el('g', { 'clip-path': `url(#${clipId})` }, svg);
+      const topEarly = Math.max(...plans.map((q) => q.early));
 
-      // 1안: 20년 고정 → 갱신 예상(점선)
-      el('path', { class: 'ln ln--a', d: `M${x(0)},${y(PLAN_A.early)} H${x(SWITCH)}` }, lines);
-      el('path', { class: 'ln ln--a ln--dash', d: `M${x(SWITCH)},${y(PLAN_A.early)} V${y(PLAN_A.late)} H${x(YEARS)}` }, lines);
-      // 2안: 20년 납입 → 0원
-      el('path', { class: 'ln ln--b', d: `M${x(0)},${y(PLAN_B.early)} H${x(SWITCH)} V${y(PLAN_B.late)} H${x(YEARS)}` }, lines);
-
-      if (!narrow) {
-        const la = el('text', { class: 'dlabel', x: x(YEARS) + 10, y: y(PLAN_A.late) + 4 }, svg);
-        la.textContent = '1안 약 15만원';
-        const la2 = el('text', { class: 'dlabel dlabel--sub', x: x(YEARS) + 10, y: y(PLAN_A.late) + 20 }, svg);
-        la2.textContent = '갱신 예상';
-        const lb = el('text', { class: 'dlabel', x: x(YEARS) + 10, y: y(0) - 4 }, svg);
-        lb.textContent = '2안 0원';
-        const lb2 = el('text', { class: 'dlabel dlabel--sub', x: x(YEARS) + 10, y: y(0) + 12 }, svg);
-        lb2.textContent = '납입 완료';
-      }
-      const s1 = el('text', { class: 'dlabel dlabel--sub', x: x(1), y: y(PLAN_B.early) - 10 }, svg);
-      s1.textContent = '2안 101,350원';
-      const s2 = el('text', { class: 'dlabel dlabel--sub', x: x(1), y: y(PLAN_A.early) + 20 }, svg);
-      s2.textContent = '1안 74,508원';
+      plans.forEach((p) => {
+        el('path', { class: `ln ln--${p.key}`, d: `M${x(0)},${y(p.early)} H${x(SWITCH)}` }, lines);
+        if (p.key === 'a' && p.late) {
+          el('path', { class: 'ln ln--a ln--dash', d: `M${x(SWITCH)},${y(p.early)} V${y(p.late)} H${x(YEARS)}` }, lines);
+        } else if (p.key === 'b') {
+          el('path', { class: 'ln ln--b', d: `M${x(SWITCH)},${y(p.early)} V${y(0)} H${x(YEARS)}` }, lines);
+        }
+        const above = plans.length === 1 || p.early >= topEarly;
+        const s = el('text', { class: 'dlabel dlabel--sub', x: x(1), y: y(p.early) + (above ? -10 : 20) }, svg);
+        s.textContent = `${p.name} ${won(p.early)}원`;
+        if (!narrow) {
+          const endY = p.key === 'a' ? y(p.late || p.early) : y(0);
+          const e1 = el('text', { class: 'dlabel', x: x(YEARS) + 10, y: endY + (p.key === 'b' ? -4 : 4) }, svg);
+          const e2 = el('text', { class: 'dlabel dlabel--sub', x: x(YEARS) + 10, y: endY + (p.key === 'b' ? 12 : 20) }, svg);
+          if (p.key === 'a') {
+            e1.textContent = p.late ? `${p.name} 약 ${p.late % 10000 === 0 ? `${p.late / 10000}만원` : `${won(p.late)}원`}` : p.name;
+            e2.textContent = p.late ? '갱신 예상' : '갱신 시 다시 정해짐';
+          } else {
+            e1.textContent = `${p.name} 0원`;
+            e2.textContent = '납입 완료';
+          }
+        }
+      });
 
       const cross = el('line', { class: 'cross', y1: m.t, y2: m.t + ih, x1: -10, x2: -10 }, svg);
-      const dotA = el('circle', { class: 'dot', r: 6, fill: 'var(--amber-d)', cx: -20, cy: -20 }, svg);
-      const dotB = el('circle', { class: 'dot', r: 6, fill: 'var(--blue)', cx: -20, cy: -20 }, svg);
+      const dots = plans.map((p) => el('circle', { class: 'dot', r: 6, fill: p.color, cx: -20, cy: -20 }, svg));
       const hit = el('rect', { x: m.l, y: m.t, width: iw, height: ih, fill: 'transparent' }, svg);
 
       const showAt = (clientX) => {
         const r = box.getBoundingClientRect();
         const yr = Math.min(YEARS, Math.max(1, Math.round(((clientX - r.left - m.l) / iw) * YEARS)));
-        const a = premiumAt(PLAN_A, yr);
-        const b = premiumAt(PLAN_B, yr);
         cross.setAttribute('x1', x(yr)); cross.setAttribute('x2', x(yr));
-        dotA.setAttribute('cx', x(yr)); dotA.setAttribute('cy', y(a));
-        dotB.setAttribute('cx', x(yr)); dotB.setAttribute('cy', y(b));
-        tip.innerHTML = `<b>${yr}년차 월 보험료</b><br><i style="background:var(--amber-d)"></i>1안 ${won(a)}원${yr > SWITCH ? ' (예상)' : ''}<br><i style="background:var(--blue)"></i>2안 ${b ? `${won(b)}원` : '0원 · 납입 완료'}`;
+        let top = Infinity;
+        const rows = plans.map((p, i) => {
+          const sw = `<i style="background:${p.color}"></i>`;
+          const v = premiumAt(p, yr);
+          if (v === null) { dots[i].setAttribute('cx', -20); return `${sw}${p.name} 갱신 시 다시 정해짐`; }
+          dots[i].setAttribute('cx', x(yr)); dots[i].setAttribute('cy', y(v));
+          top = Math.min(top, y(v));
+          if (p.key === 'b' && v === 0) return `${sw}${p.name} 0원 · 납입 완료`;
+          return `${sw}${p.name} ${won(v)}원${p.key === 'a' && yr > SWITCH ? ' (예상)' : ''}`;
+        });
+        tip.innerHTML = `<b>${yr}년차 월 보험료</b><br>${rows.join('<br>')}`;
         tip.style.left = `${Math.min(Math.max(x(yr), 90), W - 90)}px`;
-        tip.style.top = `${Math.min(y(a), y(b)) - 6}px`;
+        tip.style.top = `${(top === Infinity ? y(plans[0].early) : top) - 6}px`;
         tip.classList.add('is-on');
       };
       const hide = () => {
         tip.classList.remove('is-on');
         cross.setAttribute('x1', -10); cross.setAttribute('x2', -10);
-        dotA.setAttribute('cx', -20); dotB.setAttribute('cx', -20);
+        dots.forEach((d) => d.setAttribute('cx', -20));
       };
       hit.addEventListener('pointermove', (e) => showAt(e.clientX));
       hit.addEventListener('pointerdown', (e) => showAt(e.clientX));
@@ -395,7 +405,6 @@
 
   /* ---------- 시작 ---------- */
   function init() {
-    applyName();
     document.querySelectorAll('[data-split]').forEach(splitWords);
     initCalc();
     initAsk();

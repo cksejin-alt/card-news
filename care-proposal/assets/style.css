@@ -506,3 +506,30 @@ input[type=range]::-moz-range-thumb { width: 28px; height: 28px; border: 0; bord
 .rise__row span:not(.qa__tag) { display: block; font-size: 14px; color: var(--text-l2); line-height: 1.6; margin-top: 2px; }
 .rise__row .qa__tag { flex: none; margin-top: 2px; }
 @media (max-width: 900px) { .rise__core { grid-template-columns: 1fr; } }
+
+/* ---------- 모드별 표시 (config.js가 html에 data-mode·클래스를 붙임) ---------- */
+html:not([data-mode]) main { visibility: hidden; }
+html[data-mode="a"] :is(.m-b, .m-both, .m-ob),
+html[data-mode="b"] :is(.m-a, .m-both, .m-oa),
+html[data-mode="both"] :is(.m-oa, .m-ob),
+html.no-alater .m-alater,
+html:not(.no-alater) .m-noalater,
+html.a-not-cheaper .m-cheaper,
+html.no-consultant .m-con,
+html.no-age .m-age,
+html.no-age.no-consultant .m-meta { display: none !important; }
+
+.hero__meta { display: flex; flex-wrap: wrap; gap: 8px; margin: -10px 0 24px; }
+.hero__meta > span { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; font-size: 13.5px; font-weight: 600; color: var(--text-l2); background: rgba(255,255,255,.7); box-shadow: inset 0 0 0 1px var(--line-l); }
+.hero__meta iconify-icon { font-size: 15px; color: var(--amber-d); }
+.intro__from { margin: 22px 0 0; font-family: var(--serif-ko); font-size: 16px; color: var(--text-l2); opacity: 0; animation: introIn 1s var(--ease) 1.1s forwards; }
+.brandpill__no { font-family: var(--sans); font-weight: 600; }
+
+html:not([data-mode="both"]) .fit__grid { grid-template-columns: 1fr; max-width: 680px; }
+html:not([data-mode="both"]) .fit__card { transform: none; margin-top: 0; }
+html:not([data-mode="both"]) .tiles { grid-template-columns: 1fr; max-width: 560px; }
+html:not([data-mode="both"]) .result { grid-template-columns: 1fr; }
+html[data-mode="a"] .reasons { grid-template-columns: 1fr 1fr; }
+html[data-mode="a"] .reason:nth-child(n) { margin-top: 0; }
+html:not([data-mode="both"]) .qa__card:nth-child(2) { margin-left: 0; }
+@media (max-width: 900px) { html[data-mode="a"] .reasons { grid-template-columns: 1fr; } }
