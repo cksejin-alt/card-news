@@ -489,3 +489,20 @@ input[type=range]::-moz-range-thumb { width: 28px; height: 28px; border: 0; bord
   .stay__row--key .stay__val { font-size: 17px; }
 }
 @media print { .stay__fill, .meter__fill { transition: none !important; } }
+
+/* ---------- 간병비 상승 ---------- */
+.rise { margin-top: 16px; }
+.rise__core { padding: clamp(22px, 3.4vw, 40px); display: grid; grid-template-columns: 1fr 1.15fr; gap: clamp(22px, 4vw, 48px); align-items: center; }
+.rise__nums { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 6px 0 4px; }
+.rise__nums small { display: block; font-size: 12.5px; color: var(--text-l2); margin-bottom: 4px; }
+.rise__from b { font-size: clamp(26px, 3.4vw, 36px); color: #8A8173; font-weight: 500; text-decoration: line-through; text-decoration-thickness: 1px; }
+.rise__to b { font-size: clamp(34px, 4.6vw, 50px); color: var(--amber-d); font-weight: 600; letter-spacing: -.02em; }
+.rise__arrow { font-size: 28px; color: var(--amber-d); animation: nudge 2.4s var(--ease) infinite; }
+@keyframes nudge { 50% { transform: translateX(6px); } }
+.rise__q { font-weight: 700; font-size: 18px; letter-spacing: -.02em; margin: 0 0 14px; }
+.rise__row { display: flex; gap: 12px; align-items: flex-start; padding: 16px 18px; border-radius: 18px; background: rgba(0,121,176,.05); box-shadow: inset 0 0 0 1px rgba(0,121,176,.15); margin-bottom: 10px; }
+.rise__row--a { background: rgba(217,161,91,.14); box-shadow: inset 0 0 0 2px rgba(181,118,42,.4); }
+.rise__row b { display: block; font-size: 16px; letter-spacing: -.02em; }
+.rise__row span:not(.qa__tag) { display: block; font-size: 14px; color: var(--text-l2); line-height: 1.6; margin-top: 2px; }
+.rise__row .qa__tag { flex: none; margin-top: 2px; }
+@media (max-width: 900px) { .rise__core { grid-template-columns: 1fr; } }

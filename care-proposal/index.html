@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Gowun+Batang:wght@400;700&display=swap">
-  <link rel="stylesheet" href="assets/style.css?v=7">
+  <link rel="stylesheet" href="assets/style.css?v=8">
   <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js" defer></script>
   <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
   <script src="assets/app.js?v=7" defer></script>
@@ -172,6 +172,31 @@
               <div class="meter__track meter__track--gap"><span class="meter__fill meter__fill--b" data-grow="0.45"></span><em class="meter__gap">간병비가 오르면 부족할 수 있어요</em></div>
             </div>
             <p class="meter__note">막대 길이는 이해를 돕기 위한 그림이에요. 실제 간병비는 병원·지역·간병 형태에 따라 달라요.</p>
+          </div>
+        </div>
+
+        <div class="rise bezel" data-reveal style="--i:1">
+          <div class="bezel__core rise__core">
+            <div class="rise__left">
+              <p class="meter__title"><iconify-icon icon="solar:graph-up-linear"></iconify-icon>간병비는 계속 오르고 있어요</p>
+              <div class="rise__nums">
+                <div class="rise__from"><small>몇 년 전 하루</small><b class="num">7~8만원</b></div>
+                <iconify-icon class="rise__arrow" icon="solar:arrow-right-linear"></iconify-icon>
+                <div class="rise__to"><small>최근 평균 하루</small><b class="num">12~15만원</b></div>
+              </div>
+              <p class="meter__note">출처: 국민일보(2022.8.21), 여성경제신문(2023.5.23) 보도</p>
+            </div>
+            <div class="rise__right">
+              <p class="rise__q">10년 뒤, 20년 뒤 간병비가 더 오르면?</p>
+              <div class="rise__row rise__row--a">
+                <span class="qa__tag tag-a">1안</span>
+                <div><b>오른 간병비도 회사가 부담해요</b><span>금액이 아니라 간병인을 보내드리는 방식이라, 간병비가 얼마로 오르든 고객님 부담은 늘지 않아요.</span></div>
+              </div>
+              <div class="rise__row">
+                <span class="qa__tag tag-b">2안</span>
+                <div><b>정해진 일당만 받아요</b><span>요양병원은 하루 5만원(20년 뒤 10만원)으로 정해져 있어서, 간병비가 오른 만큼은 직접 부담하셔야 해요.</span></div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -417,6 +442,7 @@
           <div class="ctable__row" role="row" data-reveal style="--i:3"><span role="rowheader">일반병원</span><span>간병인 지원</span><span>하루 15만원</span></div>
           <div class="ctable__row ctable__row--key" role="row" data-reveal style="--i:3"><span role="rowheader">요양병원</span><span><b>간병인 지원 · 자기부담 0원</b></span><span>하루 5만원 · 차액 직접 부담</span></div>
           <div class="ctable__row" role="row" data-reveal style="--i:4"><span role="rowheader">시간이 지나면</span><span>간병인 직접 지원 방식</span><span>20년 뒤 일반 30만원 / 요양 10만원</span></div>
+          <div class="ctable__row ctable__row--key" role="row" data-reveal style="--i:4"><span role="rowheader">간병비가 오르면</span><span><b>오른 비용도 회사가 부담</b></span><span>정해진 일당만 · 오른 만큼 직접 부담</span></div>
           <div class="ctable__row" role="row" data-reveal style="--i:5"><span role="rowheader">내 부담</span><span>본인부담금 없음</span><span>주휴·명절수당 등 추가 비용 가능</span></div>
           <div class="ctable__row" role="row" data-reveal style="--i:6"><span role="rowheader">보험료</span><span><b>월 74,508원</b><br><small>20년 갱신 · 갱신 후 예상 월 약 15만원</small></span><span><b>월 101,350원</b><br><small>20년납 100세만기</small></span></div>
         </div>
@@ -495,6 +521,7 @@
     <div class="wrap">
       <p>보장 내용과 지급 조건은 상품·약관에 따라 다릅니다. 1안의 20년 뒤 보험료(월 약 15만원)는 갱신 시점의 예상치로, 실제와 다를 수 있습니다.</p>
       <p>평균 입원일수 출처: 보건복지부·건강보험심사평가원 「2017년 의료서비스 이용 현황」 (<a href="http://www.medisobizanews.com/news/articleView.html?idxno=60912" target="_blank" rel="noopener">메디소비자뉴스 보도, 2019.7.5</a>)</p>
+      <p>간병비 상승 출처: <a href="https://www.kmib.co.kr/article/view.asp?arcid=0017392945" target="_blank" rel="noopener">국민일보 「'엄마, 미안해요' 하루 14만원… 치솟은 간병비에 눈물」(2022.8.21)</a>, <a href="https://www.womaneconomy.co.kr/news/articleView.html?idxno=217099" target="_blank" rel="noopener">여성경제신문 「간병비 1년 새 12% 상승」(2023.5.23)</a></p>
       <p>계산 화면의 금액은 이해를 돕기 위한 예시이며, 실제 지급일수 한도와 지급 조건은 약관 기준으로 안내해 드립니다.</p>
     </div>
   </footer>
