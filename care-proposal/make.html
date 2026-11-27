@@ -127,7 +127,7 @@
               <a class="btn btn--line" id="open" href="#" target="_blank" rel="noopener"><iconify-icon icon="solar:square-top-down-linear"></iconify-icon>새 창에서 보기</a>
               <button type="button" class="btn btn--line" id="reset"><iconify-icon icon="solar:restart-linear"></iconify-icon>고객 정보 지우기</button>
             </div>
-            <p class="hint">컨설턴트 이름만 이 기기에 기억돼요. 고객 정보는 저장되지 않고 링크 안에만 담겨요.<br>20년 뒤 예상 보험료를 비워두면 그 문구와 그래프 점선은 나오지 않아요.</p>
+            <p class="hint">카톡 미리보기 제목에 고객 성함이 들어가요. 컨설턴트 이름만 이 기기에 기억되고, 고객 정보는 저장되지 않고 링크 안에만 담겨요.<br>20년 뒤 예상 보험료를 비워두면 그 문구와 그래프 점선은 나오지 않아요.</p>
           </div>
         </form>
       </div></div>
@@ -170,7 +170,19 @@
       return v;
     }
 
+    // 고객에게 보내는 링크: 카톡 미리보기에 고객 성함을 넣어주는 Cloudflare Worker 주소
+    // (Worker가 바로 이 페이지들(./, ./a/, ./b/)로 넘겨줌)
+    const SHARE_BASE = 'https://care-proposal-link.bojang-plan.workers.dev/';
     function buildLink(v) {
+      const direct = buildDirect(v);
+      if (!direct) return '';
+      const share = new URL(SHARE_BASE);
+      share.search = new URL(direct).search;
+      return share.toString();
+    }
+
+    // 미리보기 창용: GitHub Pages 제안서 주소
+    function buildDirect(v) {
       if (!v.mode) return '';
       const url = new URL(v.mode === 'both' ? './' : `./${v.mode}/`, location.href);
       const q = new URLSearchParams();
@@ -214,9 +226,10 @@
 
       clearTimeout(timer);
       timer = setTimeout(() => {
-        if (link && link !== lastLink) {
-          lastLink = link;
-          $('frame').src = link;
+        const direct = ageBad ? '' : buildDirect(v);
+        if (direct && direct !== lastLink) {
+          lastLink = direct;
+          $('frame').src = direct;
         }
       }, 450);
       try { if (v.c) localStorage.setItem(KEY, v.c); } catch (e) { /* 저장 불가 환경 */ }
