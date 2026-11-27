@@ -17,10 +17,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Gowun+Batang:wght@400;700&display=swap">
-  <link rel="stylesheet" href="assets/style.css?v=5">
+  <link rel="stylesheet" href="assets/style.css?v=7">
   <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js" defer></script>
   <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
-  <script src="assets/app.js?v=5" defer></script>
+  <script src="assets/app.js?v=7" defer></script>
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -137,25 +137,41 @@
         <div class="pick__head">
           <span class="eyebrow" data-reveal>제가 권해드리는 안</span>
           <h2 class="h2 pick__title" data-split>요양병원까지 생각하면,<br><em class="em-a">1안을 권해드려요</em></h2>
-          <p class="body" data-reveal>오래 입원하게 되면 요양병원으로 옮기는 경우가 많아요. 그때 누가 간병비를 내느냐가 두 안의 가장 큰 차이예요.</p>
+          <p class="body" data-reveal>요양병원은 일반병원보다 입원이 훨씬 길어요. 입원이 길수록 간병비도 오래 나가기 때문에, 그때 누가 간병비를 내느냐가 두 안의 가장 큰 차이예요.</p>
+        </div>
+
+        <div class="stay bezel" data-reveal style="--i:1">
+          <div class="bezel__core stay__core">
+            <div class="stay__top">
+              <p class="meter__title"><iconify-icon icon="solar:calendar-linear"></iconify-icon>병원 종류별 평균 입원일수</p>
+              <p class="stay__big"><span class="num"><span data-count="164">164</span>.4일</span><small>요양병원은 상급종합병원보다<br>20배 넘게 오래 입원해요</small></p>
+            </div>
+            <div class="stay__chart" role="img" aria-label="평균 입원일수: 상급종합병원 7.3일, 종합병원 9.3일, 병원 12.9일, 요양병원 164.4일">
+              <div class="stay__row"><span class="stay__name">상급종합병원</span><div class="stay__track"><span class="stay__fill" data-grow="0.0444"></span></div><b class="stay__val">7.3일</b></div>
+              <div class="stay__row"><span class="stay__name">종합병원</span><div class="stay__track"><span class="stay__fill" data-grow="0.0566"></span></div><b class="stay__val">9.3일</b></div>
+              <div class="stay__row"><span class="stay__name">병원</span><div class="stay__track"><span class="stay__fill" data-grow="0.0785"></span></div><b class="stay__val">12.9일</b></div>
+              <div class="stay__row stay__row--key"><span class="stay__name">요양병원</span><div class="stay__track"><span class="stay__fill" data-grow="1"></span></div><b class="stay__val">164.4일</b></div>
+            </div>
+            <p class="meter__note">출처: 보건복지부·건강보험심사평가원 「2017년 의료서비스 이용 현황」 (2017년 입원명세서 기준 평균 재원일수)</p>
+          </div>
         </div>
 
         <div class="meter bezel" data-reveal style="--i:1">
           <div class="bezel__core meter__core">
-            <p class="meter__title"><iconify-icon icon="solar:hospital-linear"></iconify-icon>요양병원에 입원하면, 하루 간병비는</p>
+            <p class="meter__title"><iconify-icon icon="solar:hospital-linear"></iconify-icon>요양병원에 입원하면, 간병비는</p>
             <div class="meter__row">
               <div class="meter__label"><span class="qa__tag tag-a">1안</span><b>보험이 간병인을 보내요</b></div>
               <div class="meter__track"><span class="meter__fill meter__fill--a" data-grow="1"></span><em>자기부담 <b>0원</b></em></div>
             </div>
             <div class="meter__row">
               <div class="meter__label"><span class="qa__tag tag-b">2안</span><b>하루 5만원 받아요</b></div>
-              <div class="meter__track meter__track--gap"><span class="meter__fill meter__fill--b" data-grow="0.28"></span><em class="meter__gap">나머지는 직접 부담</em></div>
+              <div class="meter__track meter__track--gap"><span class="meter__fill meter__fill--b" data-grow="0.3"></span><em class="meter__gap">간병비가 더 들면 차액은 직접 부담</em></div>
             </div>
             <div class="meter__row">
               <div class="meter__label"><span class="qa__tag tag-b">2안</span><b>20년 뒤 10만원 받아요</b></div>
-              <div class="meter__track meter__track--gap"><span class="meter__fill meter__fill--b" data-grow="0.42"></span><em class="meter__gap">그때도 직접 부담이 남아요</em></div>
+              <div class="meter__track meter__track--gap"><span class="meter__fill meter__fill--b" data-grow="0.45"></span><em class="meter__gap">간병비가 오르면 부족할 수 있어요</em></div>
             </div>
-            <p class="meter__note">막대 길이는 이해를 돕기 위한 그림이에요. 실제 간병비는 병원과 지역에 따라 달라요.</p>
+            <p class="meter__note">막대 길이는 이해를 돕기 위한 그림이에요. 실제 간병비는 병원·지역·간병 형태에 따라 달라요.</p>
           </div>
         </div>
 
@@ -168,7 +184,7 @@
           <article class="reason" data-reveal style="--i:2">
             <span class="reason__no">02</span>
             <h3>2안의 요양병원 일당은<br>하루 5만원</h3>
-            <p>요양병원 간병비를 채우기엔 턱없이 부족할 수 있어요. 20년 뒤 10만원이 되어도, 그때 간병비를 생각하면 더 부족하게 느끼실 수 있어요.</p>
+            <p>요양병원 간병비를 채우기엔 턱없이 부족해서 <b>차액은 직접 내셔야 해요</b>. 입원이 길어질수록 그 부담도 쌓여요. 20년 뒤 10만원이 되어도 그사이 간병비가 오르면 더 부족하게 느끼실 수 있어요.</p>
           </article>
           <article class="reason reason--money" data-reveal style="--i:3">
             <span class="reason__no">03</span>
@@ -193,7 +209,7 @@
         <div class="plan__body">
           <span class="eyebrow eyebrow--a" data-reveal>추천 · 1안 · 간병인 지원일당</span>
           <h2 class="h2" data-split>간병인을<br><em class="em-a">직접 보내드려요</em></h2>
-          <p class="body" data-reveal>다치거나 아파서 입원하면 보험사가 간병인을 연결해 보내드려요.
+          <p class="body" data-reveal>다치거나 아파서 입원하면, 약관에서 정한 조건에 해당할 때 보험사가 간병인을 연결해 보내드려요.
             간병인을 찾거나 비용을 먼저 낼 필요가 없어요.</p>
 
           <div class="bento">
@@ -243,8 +259,8 @@
         <div class="plan__body">
           <span class="eyebrow eyebrow--b" data-reveal>2안 · 간병인 사용일당(체증형)</span>
           <h2 class="h2" data-split>쓰신 만큼<br><em class="em-b">청구해서 돌려받아요</em></h2>
-          <p class="body body--dark" data-reveal>마음에 드는 간병인을 직접 고용해서 쓰고, 청구하면 정해진 일당을 받아요.
-            일당은 <b>20년에 걸쳐 2배로 커져요</b>.</p>
+          <p class="body body--dark" data-reveal>마음에 드는 간병인을 직접 고용해서 쓰고, 약관 조건에 맞게 청구하면 정해진 일당을 받아요.
+            20년 뒤 일당은 <b>가입 초기의 2배</b>가 돼요.</p>
 
           <div class="grow">
             <div class="grow__row" data-reveal style="--i:1">
@@ -327,8 +343,8 @@
               <div class="result__card result__card--b">
                 <span class="qa__tag tag-b">2안</span>
                 <p class="result__big num"><span id="bOut">1,500,000</span>원</p>
-                <p class="result__sub">하루 <b id="bDaily">5만원</b> × <b id="bDays">30</b>일 청구</p>
-                <p class="result__warn" id="bWarn">요양병원 간병비를 채우기엔 부족할 수 있어요. 차액은 직접 부담해요.</p>
+                <p class="result__sub">하루 <b id="bDaily">5만원</b> × <b id="bDays">30</b>일 (지급 조건을 모두 충족한다고 가정한 예시)</p>
+                <p class="result__warn" id="bWarn">요양병원 간병비를 채우기엔 부족할 수 있어요.</p>
               </div>
             </div>
           </div>
@@ -344,7 +360,7 @@
             <span class="eyebrow" data-reveal>보험료 흐름</span>
             <h2 class="h2" data-split>20년이 지나면<br>그림이 바뀝니다</h2>
           </div>
-          <p class="body" data-reveal>처음 20년은 1안이 <b>매달 26,842원</b> 덜 내요. 21년째부터는 1안은 갱신 보험료를 내고, 2안은 납입이 끝나요.</p>
+          <p class="body" data-reveal>처음 20년은 1안이 <b>매달 26,842원</b> 덜 내요. 21년째부터 1안은 갱신된 보험료(예상 월 약 15만원, 갱신 시 달라질 수 있어요)를 내고, 2안은 납입이 끝나요.</p>
         </div>
 
         <div class="bezel chartcard" data-reveal style="--i:1">
@@ -361,7 +377,7 @@
                 <thead><tr><th>기간</th><th>1안</th><th>2안</th></tr></thead>
                 <tbody>
                   <tr><td>1~20년</td><td>월 74,508원</td><td>월 101,350원</td></tr>
-                  <tr><td>21년째부터</td><td>월 약 15만원 (갱신 예상)</td><td>0원 (납입 완료, 100세까지 보장)</td></tr>
+                  <tr><td>21년째부터</td><td>월 약 15만원 (갱신 시 예상치, 확정 아님)</td><td>0원 (납입 완료, 100세까지 보장)</td></tr>
                 </tbody>
               </table>
             </details>
@@ -400,7 +416,7 @@
           <div class="ctable__row" role="row" data-reveal style="--i:2"><span role="rowheader">간병인 구하기</span><span>보험사가 연결</span><span>직접 찾아야 함</span></div>
           <div class="ctable__row" role="row" data-reveal style="--i:3"><span role="rowheader">일반병원</span><span>간병인 지원</span><span>하루 15만원</span></div>
           <div class="ctable__row ctable__row--key" role="row" data-reveal style="--i:3"><span role="rowheader">요양병원</span><span><b>간병인 지원 · 자기부담 0원</b></span><span>하루 5만원 · 차액 직접 부담</span></div>
-          <div class="ctable__row" role="row" data-reveal style="--i:4"><span role="rowheader">시간이 지나면</span><span>지원 방식 그대로</span><span>20년 뒤 일반 30만원 / 요양 10만원</span></div>
+          <div class="ctable__row" role="row" data-reveal style="--i:4"><span role="rowheader">시간이 지나면</span><span>간병인 직접 지원 방식</span><span>20년 뒤 일반 30만원 / 요양 10만원</span></div>
           <div class="ctable__row" role="row" data-reveal style="--i:5"><span role="rowheader">내 부담</span><span>본인부담금 없음</span><span>주휴·명절수당 등 추가 비용 가능</span></div>
           <div class="ctable__row" role="row" data-reveal style="--i:6"><span role="rowheader">보험료</span><span><b>월 74,508원</b><br><small>20년 갱신 · 갱신 후 예상 월 약 15만원</small></span><span><b>월 101,350원</b><br><small>20년납 100세만기</small></span></div>
         </div>
@@ -442,11 +458,11 @@
         <h2 class="h2" data-split>가입은 네 단계면 충분해요</h2>
         <ol class="steps__list">
           <li data-reveal style="--i:1"><span class="steps__dot">1</span><b>편하게 질문</b><p>궁금한 점을 카톡으로 보내주세요. 1안·2안 중 고민되는 부분을 함께 봐요.</p></li>
-          <li data-reveal style="--i:2"><span class="steps__dot">2</span><b>건강 상태 확인</b><p>가입 전 최근 병원 진료 이력을 여쭤봐요. 기억나는 만큼만 알려주셔도 돼요.</p></li>
+          <li data-reveal style="--i:2"><span class="steps__dot">2</span><b>건강 상태 확인</b><p>청약서에서 묻는 건강·치료 이력은 사실대로 알려주셔야 해요. 기억이 불확실하면 함께 확인해 드려요.</p></li>
           <li data-reveal style="--i:3"><span class="steps__dot">3</span><b>설계 확정 · 서명</b><p>보장 내용과 지급 조건을 약관으로 한 번 더 확인하고 전자서명해요.</p></li>
           <li data-reveal style="--i:4"><span class="steps__dot">4</span><b>보장 시작</b><p>보장이 시작되는 날짜와 청구 방법을 정리해서 따로 보내드려요.</p></li>
         </ol>
-        <p class="fine" data-reveal>준비물 · 신분증, 최근 진료 받은 병원과 시기 (기억나는 만큼)</p>
+        <p class="fine" data-reveal>준비물 · 신분증, 최근 진료 받은 병원과 시기 (진료 기록을 확인해 두시면 좋아요)</p>
       </div>
     </section>
 
@@ -478,6 +494,7 @@
   <footer class="foot">
     <div class="wrap">
       <p>보장 내용과 지급 조건은 상품·약관에 따라 다릅니다. 1안의 20년 뒤 보험료(월 약 15만원)는 갱신 시점의 예상치로, 실제와 다를 수 있습니다.</p>
+      <p>평균 입원일수 출처: 보건복지부·건강보험심사평가원 「2017년 의료서비스 이용 현황」 (<a href="http://www.medisobizanews.com/news/articleView.html?idxno=60912" target="_blank" rel="noopener">메디소비자뉴스 보도, 2019.7.5</a>)</p>
       <p>계산 화면의 금액은 이해를 돕기 위한 예시이며, 실제 지급일수 한도와 지급 조건은 약관 기준으로 안내해 드립니다.</p>
     </div>
   </footer>

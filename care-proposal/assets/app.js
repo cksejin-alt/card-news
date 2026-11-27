@@ -202,6 +202,9 @@
       out.total.textContent = won(daily * days);
       out.where.textContent = state.hosp === 'care' ? '요양병원' : '일반병원';
       out.warn.hidden = state.hosp !== 'care';
+      out.warn.textContent = state.when === 'now'
+        ? '실제 간병비가 일당보다 많으면 차액은 직접 부담하셔야 해요.'
+        : '그사이 간병비가 오르면 여전히 부족하게 느끼실 수 있어요.';
       const card = out.total.closest('.result__card');
       card.classList.remove('bump'); void card.offsetWidth; card.classList.add('bump');
     };
@@ -257,7 +260,7 @@
 
       el('rect', { class: 'zone', x: x(SWITCH), y: m.t, width: x(YEARS) - x(SWITCH), height: ih, rx: 8 }, svg);
       const zl = el('text', { class: 'dlabel dlabel--sub', x: x(SWITCH) + 8, y: y(PLAN_A.late) + (narrow ? 34 : 40) }, svg);
-      zl.textContent = narrow ? '21년째~' : '21년째부터';
+      zl.textContent = narrow ? '갱신 예상' : '21년째~ 갱신 예상';
 
       const grid = el('g', { class: 'grid' }, svg);
       const axis = el('g', { class: 'axis' }, svg);
@@ -367,7 +370,8 @@
         ta.style.position = 'fixed'; ta.style.opacity = '0';
         document.body.appendChild(ta);
         ta.select();
-        const ok = document.execCommand('copy');
+        let ok = false;
+        try { ok = document.execCommand('copy'); } catch (copyErr) { ok = false; }
         ta.remove();
         return ok;
       }

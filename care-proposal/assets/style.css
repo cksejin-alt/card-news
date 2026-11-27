@@ -410,7 +410,7 @@ input[type=range]::-moz-range-thumb { width: 28px; height: 28px; border: 0; bord
 @media print {
   .intro, .dock, .brandpill, .grain, .progress, .toast, .scrollcue, .orb, .marquee, .pdfbtn, .ask__btns { display: none !important; }
   [data-reveal], [data-split] .w > span { opacity: 1 !important; transform: none !important; filter: none !important; }
-  .renew__fill, .gbar__fill { transform: none !important; }
+  .renew__fill, .gbar__fill { transition: none !important; }
   section { padding: 40px 0; break-inside: avoid; }
   .hero { min-height: 0; }
   .plan__media { position: static; }
@@ -463,3 +463,29 @@ input[type=range]::-moz-range-thumb { width: 28px; height: 28px; border: 0; bord
   .dock a { padding: 9px 8px; font-size: 12px; }
   .meter__track em { font-size: 13px; padding: 0 12px; }
 }
+
+/* ---------- 평균 입원일수 ---------- */
+.stay { margin-top: 16px; }
+.stay__core { padding: clamp(22px, 3.4vw, 40px); }
+.stay__top { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; }
+.stay__top .meter__title { margin: 0; }
+.stay__big { margin: 0; display: flex; align-items: flex-end; gap: 14px; }
+.stay__big .num { font-size: clamp(44px, 6vw, 68px); line-height: 1; color: var(--amber-d); letter-spacing: -.03em; }
+.stay__big small { font-size: 13.5px; color: var(--text-l2); line-height: 1.45; padding-bottom: 6px; }
+.stay__chart { display: grid; gap: 10px; }
+.stay__row { display: grid; grid-template-columns: 110px 1fr 74px; gap: 14px; align-items: center; }
+.stay__name { font-size: 14.5px; font-weight: 600; color: var(--text-l2); }
+.stay__track { height: 26px; border-radius: 8px; background: rgba(29,27,25,.05); overflow: hidden; }
+.stay__fill { display: block; height: 100%; width: 100%; border-radius: 8px; background: #A79C8C; transform-origin: 0 50%; transform: scaleX(0); transition: transform 1.8s var(--ease) .2s; }
+.stay__val { font-family: var(--serif); font-size: 17px; font-weight: 500; text-align: right; }
+.stay__row--key .stay__name { color: var(--text-l); font-weight: 700; }
+.stay__row--key .stay__track { height: 34px; }
+.stay__row--key .stay__fill { background: linear-gradient(90deg, var(--amber-d), var(--amber)); transition-delay: .5s; }
+.stay__row--key .stay__val { color: var(--amber-d); font-size: 20px; }
+@media (max-width: 560px) {
+  .stay__row { grid-template-columns: 84px 1fr 58px; gap: 8px; }
+  .stay__name { font-size: 13px; }
+  .stay__val { font-size: 15px; }
+  .stay__row--key .stay__val { font-size: 17px; }
+}
+@media print { .stay__fill, .meter__fill { transition: none !important; } }
