@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>간병인보험 제안서 · 두 가지 안</title>
+  <meta name="description" content="간병인을 직접 보내드리는 1안, 쓰고 돌려받는 2안. 보험료와 보장을 한눈에 비교해 드려요.">
+  <meta name="theme-color" content="#16140F">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="간병인보험, 두 가지 안으로 준비했어요">
+  <meta property="og:description" content="1안 간병인 지원일당 · 2안 간병인 사용일당(체증형). 보험료와 보장을 한눈에 비교해 보세요.">
+  <meta property="og:image" content="https://cksejin-alt.github.io/card-news/care-proposal/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://cksejin-alt.github.io/card-news/care-proposal/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Gowun+Batang:wght@400;700&display=swap">
+  <link rel="stylesheet" href="assets/style.css?v=3">
+  <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js" defer></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
+  <script src="assets/app.js?v=3" defer></script>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+
+  <!-- 인트로: 편지 봉투가 열리듯 -->
+  <div class="intro" id="intro" aria-hidden="true">
+    <div class="intro__inner">
+      <p class="intro__eyebrow">CARE PLAN PROPOSAL</p>
+      <p class="intro__to"><span class="js-name">고객님</span>께 드리는</p>
+      <p class="intro__title">간병인보험 안내서</p>
+      <span class="intro__line"></span>
+    </div>
+  </div>
+
+  <!-- 상단 떠 있는 표식 -->
+  <a href="#top" class="brandpill" data-magnetic>
+    <span class="brandpill__dot"></span>
+    <span>간병인보험 제안서</span>
+    <span class="brandpill__no">No. 2026-11</span>
+  </a>
+
+  <!-- 하단 섹션 독 -->
+  <nav class="dock" id="dock" aria-label="섹션 이동">
+    <a href="#plan-a" data-dock="plan-a">1안</a>
+    <a href="#plan-b" data-dock="plan-b">2안</a>
+    <a href="#calc" data-dock="calc">계산</a>
+    <a href="#cost" data-dock="cost">보험료</a>
+    <a href="#compare" data-dock="compare">비교</a>
+    <a href="#ask" data-dock="ask" class="dock__ask">문의</a>
+  </nav>
+
+  <main id="top">
+    <!-- ============ HERO ============ -->
+    <section class="hero sec-dark" id="hero">
+      <div class="orb orb--a" aria-hidden="true"></div>
+      <div class="orb orb--b" aria-hidden="true"></div>
+      <div class="wrap hero__grid">
+        <div class="hero__text">
+          <span class="eyebrow eyebrow--dark" data-reveal>간병인보험 제안 · 두 가지 안</span>
+          <h1 class="hero__title" data-split>
+            <span class="js-name">고객님</span>,<br>
+            입원하셨을 때<br>곁을 지킬 간병,<br>
+            <em>두 가지 방법</em>으로<br>준비했어요
+          </h1>
+          <p class="hero__lead" data-reveal style="--i:3">
+            간병인을 <strong>직접 보내드리는 1안</strong>과,
+            원하는 간병인을 쓰고 <strong>돌려받는 2안</strong>.
+            보장과 보험료를 차례로 보여드릴게요.
+          </p>
+          <div class="hero__chips" data-reveal style="--i:4">
+            <a href="#plan-a" class="chip chip--a" data-magnetic><b>1안</b> 간병인 지원일당<span class="chip__ic"><iconify-icon icon="solar:arrow-right-down-linear"></iconify-icon></span></a>
+            <a href="#plan-b" class="chip chip--b" data-magnetic><b>2안</b> 간병인 사용일당(체증형)<span class="chip__ic"><iconify-icon icon="solar:arrow-right-down-linear"></iconify-icon></span></a>
+          </div>
+        </div>
+        <div class="hero__visual" data-reveal style="--i:2">
+          <div class="bezel bezel--dark hero__frame" data-parallax="-0.06">
+            <div class="bezel__core hero__img" style="background-image:url('assets/hero.webp')"></div>
+          </div>
+          <div class="float-badge float-badge--1">
+            <iconify-icon icon="solar:user-heart-rounded-linear"></iconify-icon>
+            <div><small>1안</small><b>본인부담금 0원</b></div>
+          </div>
+          <div class="float-badge float-badge--2">
+            <iconify-icon icon="solar:graph-up-linear"></iconify-icon>
+            <div><small>2안</small><b>20년 뒤 일당 2배</b></div>
+          </div>
+        </div>
+      </div>
+      <a href="#why" class="scrollcue" aria-label="아래로">
+        <span>천천히 내려보세요</span><i></i>
+      </a>
+    </section>
+
+    <!-- ============ MARQUEE ============ -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>상해 · 질병 모두</span><i>✦</i><span>일반병원 · 요양병원</span><i>✦</i><span>1~180일 · 181일 이상</span><i>✦</i><span>본인부담금 없음</span><i>✦</i><span>20년 뒤 체증 2배</span><i>✦</i><span>20년납 100세만기</span><i>✦</i>
+        <span>상해 · 질병 모두</span><i>✦</i><span>일반병원 · 요양병원</span><i>✦</i><span>1~180일 · 181일 이상</span><i>✦</i><span>본인부담금 없음</span><i>✦</i><span>20년 뒤 체증 2배</span><i>✦</i><span>20년납 100세만기</span><i>✦</i>
+      </div>
+    </div>
+
+    <!-- ============ WHY ============ -->
+    <section class="why sec-cream" id="why">
+      <div class="wrap why__grid">
+        <div>
+          <span class="eyebrow" data-reveal>먼저, 간병이 필요해지면</span>
+          <h2 class="h2 serif-ko" data-split>간병에는 늘<br>두 가지가 같이 옵니다</h2>
+        </div>
+        <div class="why__right">
+          <p class="body" data-reveal>믿고 맡길 <b>사람을 구하는 일</b>, 그리고 매일 나가는 <b>간병비</b>.
+            두 안은 이 중 무엇을 보험이 맡아주느냐가 달라요.</p>
+          <div class="qa">
+            <div class="qa__card" data-reveal style="--i:1" data-tilt>
+              <span class="qa__tag tag-a">1안</span>
+              <p class="qa__q">사람을 구하는 일</p>
+              <p class="qa__a">보험사가 간병인을 <b>직접 보내드려요</b>. 비용도 따로 내지 않아요.</p>
+            </div>
+            <div class="qa__card" data-reveal style="--i:2" data-tilt>
+              <span class="qa__tag tag-b">2안</span>
+              <p class="qa__q">간병비</p>
+              <p class="qa__a">원하는 간병인을 직접 쓰고, <b>정해진 일당을 청구해 돌려받아요</b>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PLAN A ============ -->
+    <section class="plan plan--a sec-paper" id="plan-a">
+      <span class="giant-no" aria-hidden="true" data-parallax="0.08">01</span>
+      <div class="wrap plan__grid">
+        <div class="plan__media">
+          <div class="bezel" data-reveal>
+            <div class="bezel__core plan__img" style="background-image:url('assets/plan-a.webp')"></div>
+          </div>
+          <p class="caption" data-reveal style="--i:1">간병인이 병원으로 찾아옵니다</p>
+        </div>
+        <div class="plan__body">
+          <span class="eyebrow eyebrow--a" data-reveal>1안 · 간병인 지원일당</span>
+          <h2 class="h2" data-split>간병인을<br><em class="em-a">직접 보내드려요</em></h2>
+          <p class="body" data-reveal>다치거나 아파서 입원하면 보험사가 간병인을 연결해 보내드려요.
+            간병인을 찾거나 비용을 먼저 낼 필요가 없어요.</p>
+
+          <div class="bento">
+            <div class="bento__item bento__item--wide" data-reveal style="--i:1">
+              <iconify-icon icon="solar:shield-plus-linear"></iconify-icon>
+              <div><b>상해 · 질병 모두</b><span>다쳐서 입원해도, 병으로 입원해도 지원해요</span></div>
+            </div>
+            <div class="bento__item" data-reveal style="--i:2">
+              <iconify-icon icon="solar:calendar-linear"></iconify-icon>
+              <div><b>1~180일</b><span>+ 181일 이상 담보</span></div>
+            </div>
+            <div class="bento__item" data-reveal style="--i:3">
+              <iconify-icon icon="solar:hospital-linear"></iconify-icon>
+              <div><b>일반 · 요양병원</b><span>둘 다 지원 가능</span></div>
+            </div>
+            <div class="bento__item bento__item--zero" data-reveal style="--i:4">
+              <span class="zero"><span data-count="0">0</span>원</span>
+              <div><b>본인부담금</b><span>간병 비용을 따로 내지 않아요</span></div>
+            </div>
+          </div>
+
+          <div class="price bezel" data-reveal style="--i:2">
+            <div class="bezel__core price__core">
+              <div class="price__row">
+                <span class="price__label">월 보험료 · 20년 갱신형</span>
+                <span class="price__num num"><span data-count="74508">74,508</span><small>원</small></span>
+              </div>
+              <div class="renew">
+                <div class="renew__bar"><span class="renew__fill renew__fill--a" data-grow="0.5"></span></div>
+                <div class="renew__labels">
+                  <span>지금 <b>74,508원</b></span>
+                  <span>20년 뒤 갱신 예상 <b>월 약 15만원</b></span>
+                </div>
+              </div>
+              <p class="note">20년 동안은 같은 보험료를 내고, 20년 뒤 갱신될 때 보험료가 다시 정해져요. 15만원은 예상치예요.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PLAN B ============ -->
+    <section class="plan plan--b sec-dark" id="plan-b">
+      <div class="orb orb--c" aria-hidden="true"></div>
+      <span class="giant-no giant-no--dark" aria-hidden="true" data-parallax="0.08">02</span>
+      <div class="wrap plan__grid plan__grid--rev">
+        <div class="plan__body">
+          <span class="eyebrow eyebrow--b" data-reveal>2안 · 간병인 사용일당(체증형)</span>
+          <h2 class="h2" data-split>쓰신 만큼<br><em class="em-b">청구해서 돌려받아요</em></h2>
+          <p class="body body--dark" data-reveal>마음에 드는 간병인을 직접 고용해서 쓰고, 청구하면 정해진 일당을 받아요.
+            일당은 <b>20년에 걸쳐 2배로 커져요</b>.</p>
+
+          <div class="grow">
+            <div class="grow__row" data-reveal style="--i:1">
+              <div class="grow__head"><b>일반병원</b><span>하루</span></div>
+              <div class="grow__bars">
+                <div class="gbar"><span class="gbar__fill" data-grow="0.5"></span><em>가입 초기 <b>15만원</b></em></div>
+                <div class="gbar gbar--late"><span class="gbar__fill" data-grow="1"></span><em>20년 뒤 <b>30만원</b></em></div>
+              </div>
+            </div>
+            <div class="grow__row" data-reveal style="--i:2">
+              <div class="grow__head"><b>요양병원</b><span>하루</span></div>
+              <div class="grow__bars">
+                <div class="gbar"><span class="gbar__fill" data-grow="0.1667"></span><em>가입 초기 <b>5만원</b></em></div>
+                <div class="gbar gbar--late"><span class="gbar__fill" data-grow="0.3333"></span><em>20년 뒤 <b>10만원</b></em></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="price bezel bezel--dark" data-reveal style="--i:2">
+            <div class="bezel__core price__core price__core--dark">
+              <div class="price__row">
+                <span class="price__label">월 보험료 · 20년납 100세만기</span>
+                <span class="price__num num"><span data-count="101350">101,350</span><small>원</small></span>
+              </div>
+              <p class="note note--dark">20년만 내면 납입이 끝나고, 보장은 100세까지 이어져요.</p>
+            </div>
+          </div>
+
+          <div class="caution" data-reveal style="--i:3">
+            <iconify-icon icon="solar:info-circle-linear"></iconify-icon>
+            <div>
+              <b>알아두실 점</b>
+              <p>간병인은 직접 찾아서 고용하셔야 해요. 직접 고용하다 보면 <b>주휴수당, 명절수당</b> 같은 추가 비용 이야기가 나올 수 있어요.</p>
+            </div>
+          </div>
+        </div>
+        <div class="plan__media">
+          <div class="bezel bezel--dark" data-reveal>
+            <div class="bezel__core plan__img" style="background-image:url('assets/plan-b.webp')"></div>
+          </div>
+          <p class="caption caption--dark" data-reveal style="--i:1">영수증으로 청구해 돌려받습니다</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CALCULATOR ============ -->
+    <section class="calc sec-cream" id="calc">
+      <div class="wrap calc__grid">
+        <div>
+          <span class="eyebrow" data-reveal>직접 움직여 보세요</span>
+          <h2 class="h2" data-split>입원이 길어지면<br>어떻게 달라질까요</h2>
+          <p class="body" data-reveal>입원 일수와 병원을 고르면, 두 안이 어떻게 도와드리는지 바로 보여드려요.</p>
+          <p class="fine" data-reveal>예시 계산이에요. 실제 지급 한도와 조건은 약관 기준으로 함께 확인해 드려요.</p>
+        </div>
+
+        <div class="bezel calc__panel" data-reveal style="--i:1">
+          <div class="bezel__core calc__core">
+            <div class="ctl">
+              <div class="ctl__head"><span>입원 일수</span><b class="num"><span id="dayOut">30</span>일</b></div>
+              <input type="range" id="days" min="1" max="90" value="30" aria-label="입원 일수">
+            </div>
+            <div class="ctl ctl--split">
+              <div class="seg" role="group" aria-label="병원 종류">
+                <button type="button" class="is-on" data-hosp="general">일반병원</button>
+                <button type="button" data-hosp="care">요양병원</button>
+              </div>
+              <div class="seg" role="group" aria-label="시점">
+                <button type="button" class="is-on" data-when="now">가입 초기</button>
+                <button type="button" data-when="later">20년 뒤</button>
+              </div>
+            </div>
+
+            <div class="result">
+              <div class="result__card result__card--a">
+                <span class="qa__tag tag-a">1안</span>
+                <p class="result__big">간병인 파견</p>
+                <p class="result__sub">간병인이 직접 와요 · 내 부담 <b>0원</b></p>
+              </div>
+              <div class="result__card result__card--b">
+                <span class="qa__tag tag-b">2안</span>
+                <p class="result__big num"><span id="bOut">4,500,000</span>원</p>
+                <p class="result__sub">하루 <b id="bDaily">15만원</b> × <b id="bDays">30</b>일 청구</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ COST CHART ============ -->
+    <section class="cost sec-paper" id="cost">
+      <div class="wrap">
+        <div class="cost__head">
+          <div>
+            <span class="eyebrow" data-reveal>보험료 흐름</span>
+            <h2 class="h2" data-split>20년이 지나면<br>그림이 바뀝니다</h2>
+          </div>
+          <p class="body" data-reveal>처음 20년은 1안이 덜 내요. 21년째부터는 1안은 갱신 보험료를 계속 내고, 2안은 납입이 끝나요.</p>
+        </div>
+
+        <div class="bezel chartcard" data-reveal style="--i:1">
+          <div class="bezel__core chartcard__core">
+            <div class="chart__legend">
+              <span><i class="sw sw--a"></i>1안 간병인 지원일당</span>
+              <span><i class="sw sw--b"></i>2안 간병인 사용일당</span>
+              <span class="chart__unit">월 보험료 · 가입 후 연차</span>
+            </div>
+            <div class="chart" id="chart" role="img" aria-label="월 보험료 흐름. 1안은 1~20년 74,508원, 21년째부터 예상 약 15만원. 2안은 1~20년 101,350원, 21년째부터 0원."></div>
+            <details class="chart__table">
+              <summary>표로 보기</summary>
+              <table>
+                <thead><tr><th>기간</th><th>1안</th><th>2안</th></tr></thead>
+                <tbody>
+                  <tr><td>1~20년</td><td>월 74,508원</td><td>월 101,350원</td></tr>
+                  <tr><td>21년째부터</td><td>월 약 15만원 (갱신 예상)</td><td>0원 (납입 완료, 100세까지 보장)</td></tr>
+                </tbody>
+              </table>
+            </details>
+          </div>
+        </div>
+
+        <div class="tiles">
+          <div class="tile" data-reveal style="--i:1">
+            <span class="qa__tag tag-a">1안</span>
+            <p class="tile__label">처음 20년 동안 내는 보험료</p>
+            <p class="tile__num num"><span data-count="17881920">17,881,920</span>원</p>
+            <p class="tile__sub">74,508원 × 240개월 · 이후 갱신 보험료 계속 납입</p>
+          </div>
+          <div class="tile" data-reveal style="--i:2">
+            <span class="qa__tag tag-b">2안</span>
+            <p class="tile__label">20년 동안 내는 보험료</p>
+            <p class="tile__num num"><span data-count="24324000">24,324,000</span>원</p>
+            <p class="tile__sub">101,350원 × 240개월 · 이후 납입 없이 100세까지 보장</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ COMPARE ============ -->
+    <section class="compare sec-dark" id="compare">
+      <div class="wrap">
+        <span class="eyebrow eyebrow--dark" data-reveal>한 장으로 비교</span>
+        <h2 class="h2" data-split>두 안을 나란히 놓고 보면</h2>
+        <div class="ctable" role="table" aria-label="1안 2안 비교표">
+          <div class="ctable__row ctable__row--head" role="row">
+            <span role="columnheader"></span>
+            <span role="columnheader" class="c-a">1안 · 지원일당</span>
+            <span role="columnheader" class="c-b">2안 · 사용일당(체증형)</span>
+          </div>
+          <div class="ctable__row" role="row" data-reveal style="--i:1"><span role="rowheader">받는 방식</span><span>간병인을 직접 보내줌</span><span>직접 고용 후 청구해 돌려받음</span></div>
+          <div class="ctable__row" role="row" data-reveal style="--i:2"><span role="rowheader">간병인 구하기</span><span>보험사가 연결</span><span>직접 찾아야 함</span></div>
+          <div class="ctable__row" role="row" data-reveal style="--i:3"><span role="rowheader">병원</span><span>일반 · 요양병원 모두</span><span>일반 15만원 / 요양 5만원 (하루)</span></div>
+          <div class="ctable__row" role="row" data-reveal style="--i:4"><span role="rowheader">시간이 지나면</span><span>지원 방식 그대로</span><span>20년 뒤 일반 30만원 / 요양 10만원</span></div>
+          <div class="ctable__row" role="row" data-reveal style="--i:5"><span role="rowheader">내 부담</span><span>본인부담금 없음</span><span>주휴·명절수당 등 추가 비용 가능</span></div>
+          <div class="ctable__row" role="row" data-reveal style="--i:6"><span role="rowheader">보험료</span><span><b>월 74,508원</b><br><small>20년 갱신 · 갱신 후 예상 월 약 15만원</small></span><span><b>월 101,350원</b><br><small>20년납 100세만기</small></span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FIT ============ -->
+    <section class="fit sec-cream" id="fit">
+      <div class="wrap">
+        <span class="eyebrow" data-reveal>고르실 때 참고하세요</span>
+        <h2 class="h2" data-split>이런 분께 잘 맞아요</h2>
+        <div class="fit__grid">
+          <article class="fit__card fit__card--a" data-reveal style="--i:1" data-tilt>
+            <span class="fit__no">01</span>
+            <h3>1안이 맞는 분</h3>
+            <ul>
+              <li><iconify-icon icon="solar:check-circle-linear"></iconify-icon>간병인 구하는 수고를 덜고 싶은 분</li>
+              <li><iconify-icon icon="solar:check-circle-linear"></iconify-icon>간병비를 먼저 내고 청구하는 과정이 번거로운 분</li>
+              <li><iconify-icon icon="solar:check-circle-linear"></iconify-icon>지금 보험료 부담을 낮게 시작하고 싶은 분</li>
+            </ul>
+          </article>
+          <article class="fit__card fit__card--b" data-reveal style="--i:2" data-tilt>
+            <span class="fit__no">02</span>
+            <h3>2안이 맞는 분</h3>
+            <ul>
+              <li><iconify-icon icon="solar:check-circle-linear"></iconify-icon>간병인을 직접 고르고 싶은 분</li>
+              <li><iconify-icon icon="solar:check-circle-linear"></iconify-icon>보험료를 20년 안에 끝내고 싶은 분</li>
+              <li><iconify-icon icon="solar:check-circle-linear"></iconify-icon>시간이 지나 오르는 간병비에 대비하고 싶은 분</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ STEPS ============ -->
+    <section class="steps sec-paper" id="steps">
+      <div class="wrap">
+        <span class="eyebrow" data-reveal>이렇게 진행돼요</span>
+        <h2 class="h2" data-split>가입은 네 단계면 충분해요</h2>
+        <ol class="steps__list">
+          <li data-reveal style="--i:1"><span class="steps__dot">1</span><b>편하게 질문</b><p>궁금한 점을 카톡으로 보내주세요. 1안·2안 중 고민되는 부분을 함께 봐요.</p></li>
+          <li data-reveal style="--i:2"><span class="steps__dot">2</span><b>건강 상태 확인</b><p>가입 전 최근 병원 진료 이력을 여쭤봐요. 기억나는 만큼만 알려주셔도 돼요.</p></li>
+          <li data-reveal style="--i:3"><span class="steps__dot">3</span><b>설계 확정 · 서명</b><p>보장 내용과 지급 조건을 약관으로 한 번 더 확인하고 전자서명해요.</p></li>
+          <li data-reveal style="--i:4"><span class="steps__dot">4</span><b>보장 시작</b><p>보장이 시작되는 날짜와 청구 방법을 정리해서 따로 보내드려요.</p></li>
+        </ol>
+        <p class="fine" data-reveal>준비물 · 신분증, 최근 진료 받은 병원과 시기 (기억나는 만큼)</p>
+      </div>
+    </section>
+
+    <!-- ============ ASK ============ -->
+    <section class="ask sec-dark" id="ask">
+      <div class="orb orb--a" aria-hidden="true"></div>
+      <div class="wrap ask__inner">
+        <span class="eyebrow eyebrow--dark" data-reveal>궁금한 점이 있으시면</span>
+        <h2 class="ask__title serif-ko" data-split>편하게 물어보세요</h2>
+        <p class="body body--dark" data-reveal>아래 버튼을 누르면 문장이 복사돼요. 카톡 대화창에 붙여넣어 보내주시면 바로 답드릴게요.</p>
+        <div class="ask__btns" data-reveal style="--i:2">
+          <button type="button" class="cta cta--a" data-magnetic data-copy="1안(간병인 지원일당) 조금 더 자세히 알고 싶어요.">
+            <span>1안 더 알아보기</span><span class="cta__ic"><iconify-icon icon="solar:copy-linear"></iconify-icon></span>
+          </button>
+          <button type="button" class="cta cta--b" data-magnetic data-copy="2안(간병인 사용일당 체증형) 조금 더 자세히 알고 싶어요.">
+            <span>2안 더 알아보기</span><span class="cta__ic"><iconify-icon icon="solar:copy-linear"></iconify-icon></span>
+          </button>
+          <button type="button" class="cta cta--ghost" data-magnetic data-copy="간병인보험 1안, 2안 비교해서 설명 부탁드려요.">
+            <span>두 안 비교 설명 듣기</span><span class="cta__ic"><iconify-icon icon="solar:chat-round-dots-linear"></iconify-icon></span>
+          </button>
+        </div>
+        <button type="button" class="pdfbtn" id="pdfBtn" data-reveal style="--i:3">
+          <iconify-icon icon="solar:file-download-linear"></iconify-icon> 이 안내서 PDF로 저장하기
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <p>보장 내용과 지급 조건은 상품·약관에 따라 다릅니다. 1안의 20년 뒤 보험료(월 약 15만원)는 갱신 시점의 예상치로, 실제와 다를 수 있습니다.</p>
+      <p>계산 화면의 금액은 이해를 돕기 위한 예시이며, 실제 지급일수 한도와 지급 조건은 약관 기준으로 안내해 드립니다.</p>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
