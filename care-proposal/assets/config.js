@@ -6,7 +6,7 @@
   'use strict';
 
   const LEGACY = { a: 74508, aLater: 150000, b: 101350 }; // 첫 제안서(박재철 고객님) 값
-  const MONTHS_20Y = 240;
+  const DEFAULT_YEARS = 20; // 기간을 안 넣은 링크(첫 제안서)는 지원일당 20년 갱신, 사용일당 20년납 100세만기
   const won = (n) => Math.round(n).toLocaleString('ko-KR');
   const clean = (s, max) => (s || '').replace(/[<>"'&]/g, '').trim().slice(0, max);
   const money = (s) => {
@@ -35,30 +35,47 @@
     const ageNum = Number(q.get('age'));
     const age = Number.isInteger(ageNum) && ageNum > 0 && ageNum < 120 ? ageNum : 0;
     const rawName = clean(q.get('to'), 12);
+    // 기간: 지원일당 갱신 주기(ar), 사용일당 형태(bt: r=갱신형, m=세만기) · 기간(bp) · 만기 나이(bm)
+    const years = (s, def, min, max) => {
+      const n = Number(s);
+      return Number.isInteger(n) && n >= min && n <= max ? n : def;
+    };
+    const bType = q.get('bt') === 'r' ? 'r' : 'm';
     return {
       consultant: clean(q.get('c'), 12),
       name: rawName ? (/님$/.test(rawName) ? rawName : `${rawName} 고객님`) : '고객님',
       hasName: Boolean(rawName),
       age,
       a, b, aLater: a ? aLater : 0,
+      aRenew: years(q.get('ar'), DEFAULT_YEARS, 1, 100),
+      bType,
+      bYears: years(q.get('bp'), DEFAULT_YEARS, 1, 100),
+      bMature: years(q.get('bm'), 100, 50, 120),
       mode: a && b ? 'both' : (a ? 'a' : 'b'),
     };
   }
 
   function values(cfg) {
+    const aMonths = cfg.aRenew * 12;
+    const bMonths = cfg.bYears * 12;
+    const cmpYears = Math.min(cfg.aRenew, cfg.bYears);
+    const bTerm = cfg.bType === 'r' ? `${cfg.bYears}년 갱신형` : `${cfg.bYears}년납 ${cfg.bMature}세만기`;
     const v = {
       consultant: cfg.consultant,
       name: cfg.name,
       age: cfg.age ? `${cfg.age}세` : '',
-      age20: cfg.age ? `${cfg.age + 20}세` : '',
+      aAge: cfg.age ? `${cfg.age + cfg.aRenew}세` : '',
       a: won(cfg.a), b: won(cfg.b),
-      a240: won(cfg.a * MONTHS_20Y), b240: won(cfg.b * MONTHS_20Y),
+      aTotal: won(cfg.a * aMonths), bTotal: won(cfg.b * bMonths),
       aLater: cfg.aLater ? manwon(cfg.aLater) : '',
+      aR: `${cfg.aRenew}년`, aNext: `${cfg.aRenew + 1}년째`, aMonths: `${aMonths}개월`,
+      bP: `${cfg.bYears}년`, bNext: `${cfg.bYears + 1}년째`, bMonths: `${bMonths}개월`, bM: `${cfg.bMature}세`,
+      bTerm, cmpY: `${cmpYears}년`,
     };
     const diff = cfg.b - cfg.a;
     v.diff = won(diff);
-    v.diff240 = won(diff * MONTHS_20Y);
-    return { text: v, counts: { a: cfg.a, b: cfg.b, a240: cfg.a * MONTHS_20Y, b240: cfg.b * MONTHS_20Y, diff } };
+    v.diffP = won(diff * cmpYears * 12);
+    return { text: v, counts: { a: cfg.a, b: cfg.b, aTotal: cfg.a * aMonths, bTotal: cfg.b * bMonths, diff } };
   }
 
   function apply(cfg) {
@@ -68,6 +85,7 @@
     root.classList.toggle('a-not-cheaper', !(cfg.a && cfg.b && cfg.a < cfg.b));
     root.classList.toggle('no-consultant', !cfg.consultant);
     root.classList.toggle('no-age', !cfg.age);
+    root.classList.toggle('b-renew', cfg.bType === 'r');
 
     const { text, counts } = values(cfg);
     document.querySelectorAll('[data-v]').forEach((el) => { el.textContent = text[el.dataset.v] ?? ''; });
@@ -88,7 +106,7 @@
     const renew = document.querySelector('.renew__fill');
     if (renew && cfg.aLater) renew.dataset.grow = Math.min(1, cfg.a / cfg.aLater).toFixed(3);
 
-    buildMarquee(cfg.mode);
+    buildMarquee(cfg.mode, text);
     buildCopyTexts(cfg);
 
     const who = cfg.hasName ? cfg.name : '';
@@ -97,14 +115,14 @@
   }
 
   const MARQUEE = {
-    a: ['상해 · 질병 모두', '일반병원 · 요양병원', '1~180일 · 181일 이상', '본인부담금 없음', '간병인 직접 지원', '오른 간병비도 회사가 부담'],
-    b: ['일반병원 하루 15만원', '요양병원 하루 5만원', '20년 뒤 일당 2배', '20년납 100세만기', '원하는 간병인 직접 선택'],
-    both: ['상해 · 질병 모두', '일반병원 · 요양병원', '1~180일 · 181일 이상', '본인부담금 없음', '20년 뒤 체증 2배', '20년납 100세만기'],
+    a: (t) => ['상해 · 질병 모두', '일반병원 · 요양병원', '1~180일 · 181일 이상', '본인부담금 없음', '간병인 직접 지원', '오른 간병비도 회사가 부담', `${t.aR} 갱신형`],
+    b: (t) => ['일반병원 하루 15만원', '요양병원 하루 5만원', '20년 뒤 일당 2배', t.bTerm, '원하는 간병인 직접 선택'],
+    both: (t) => ['상해 · 질병 모두', '일반병원 · 요양병원', '1~180일 · 181일 이상', '본인부담금 없음', '20년 뒤 체증 2배', t.bTerm],
   };
-  function buildMarquee(mode) {
+  function buildMarquee(mode, text) {
     const track = document.querySelector('.marquee__track');
     if (!track) return;
-    const items = MARQUEE[mode];
+    const items = MARQUEE[mode](text);
     track.textContent = '';
     for (let round = 0; round < 2; round += 1) {
       items.forEach((label) => {

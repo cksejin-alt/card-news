@@ -53,6 +53,13 @@
     .plan__head b { font-size: 16px; }
     .plan__head .desc { font-size: 12.5px; color: var(--text2); margin-left: auto; }
     .plan input { background: #fff; }
+    [hidden] { display: none !important; }
+    .row--3 { grid-template-columns: 1.3fr 1fr 1.3fr; }
+    .row--3 .lab { white-space: nowrap; }
+    .field.has-unit input[maxlength="3"] { padding-right: 52px; }
+    .seg { display: flex; padding: 4px; border-radius: 999px; background: rgba(29,27,25,.06); margin-bottom: 12px; }
+    .seg button { flex: 1; min-height: 42px; border: 0; border-radius: 999px; background: none; font: inherit; font-size: 13.5px; font-weight: 700; color: var(--text2); cursor: pointer; transition: all .5s var(--ease); }
+    .seg button.is-on { background: #fff; color: var(--blue); box-shadow: 0 6px 16px -8px rgba(29,27,25,.35); }
     .mode { display: flex; align-items: center; gap: 12px; margin-top: 18px; padding: 14px 16px; border-radius: 16px; background: var(--ink); color: var(--cream); transition: background .5s var(--ease); }
     .mode iconify-icon { font-size: 22px; color: var(--amber); flex: none; }
     .mode b { display: block; font-size: 15.5px; }
@@ -80,7 +87,8 @@
     .toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom)); transform: translate(-50%, 20px); opacity: 0; padding: 13px 20px; border-radius: 999px; background: var(--ink); color: var(--cream); font-size: 14px; font-weight: 600; transition: all .6s var(--ease); pointer-events: none; z-index: 10; white-space: nowrap; }
     .toast.is-on { transform: translate(-50%, 0); opacity: 1; }
     @media (max-width: 980px) { .grid { grid-template-columns: 1fr; } .preview { position: static; max-width: 360px; width: 100%; margin: 0 auto; } }
-    @media (max-width: 520px) { .row { grid-template-columns: 1fr; } .age { max-width: none; } .plan__head .desc { display: none; } .btns { grid-template-columns: 1fr; } }
+    @media (max-width: 700px) { .row--3 { grid-template-columns: 1fr 1fr; } .row--3 > label:first-child { grid-column: 1 / -1; } }
+    @media (max-width: 520px) { .row:not(.row--3) { grid-template-columns: 1fr; } .age { max-width: none; } .plan__head .desc { display: none; } .btns { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -107,15 +115,25 @@
           <div class="group">
             <p class="sec-title"><iconify-icon icon="solar:wallet-money-linear"></iconify-icon>월 보험료 <small>· 넣은 상품만 제안서에 나와요</small></p>
             <div class="plan plan--a" id="planA">
-              <div class="plan__head"><span class="tag tag--a">지원일당</span><b>간병인 지원일당</b><span class="desc">간병인을 직접 보내드림 · 20년 갱신</span></div>
-              <div class="row">
+              <div class="plan__head"><span class="tag tag--a">지원일당</span><b>간병인 지원일당</b><span class="desc">간병인을 직접 보내드림 · 갱신형</span></div>
+              <div class="row row--3">
                 <label><span class="lab">월 보험료</span><div class="field has-unit"><input id="a" inputmode="numeric" placeholder="74,508"><span class="unit">원</span></div></label>
-                <label><span class="lab">20년 뒤 예상 <small>선택</small></span><div class="field has-unit"><input id="a20" inputmode="numeric" placeholder="150,000"><span class="unit">원</span></div></label>
+                <label><span class="lab">갱신 주기</span><div class="field has-unit"><input id="ar" inputmode="numeric" maxlength="3" value="20"><span class="unit">년</span></div></label>
+                <label><span class="lab"><span><span id="a20Lab">20년</span> 뒤 예상</span><small>선택</small></span><div class="field has-unit"><input id="a20" inputmode="numeric" placeholder="150,000"><span class="unit">원</span></div></label>
               </div>
             </div>
             <div class="plan plan--b" id="planB">
-              <div class="plan__head"><span class="tag tag--b">사용일당</span><b>간병인 사용일당(체증형)</b><span class="desc">쓰고 돌려받음 · 20년납 100세만기</span></div>
-              <label><span class="lab">월 보험료</span><div class="field has-unit"><input id="b" inputmode="numeric" placeholder="101,350"><span class="unit">원</span></div></label>
+              <div class="plan__head"><span class="tag tag--b">사용일당</span><b>간병인 사용일당(체증형)</b><span class="desc">쓰고 돌려받음</span></div>
+              <div class="seg" role="group" aria-label="사용일당 형태">
+                <button type="button" class="is-on" data-bt="m">세만기 (납입 후 만기까지 보장)</button>
+                <button type="button" data-bt="r">갱신형</button>
+              </div>
+              <div class="row row--3">
+                <label><span class="lab">월 보험료</span><div class="field has-unit"><input id="b" inputmode="numeric" placeholder="101,350"><span class="unit">원</span></div></label>
+                <label class="bt-m"><span class="lab">납입 기간</span><div class="field has-unit"><input id="bp" inputmode="numeric" maxlength="3" value="20"><span class="unit">년납</span></div></label>
+                <label class="bt-m"><span class="lab">만기</span><div class="field has-unit"><input id="bm" inputmode="numeric" maxlength="3" value="100"><span class="unit">세</span></div></label>
+                <label class="bt-r" hidden><span class="lab">갱신 주기</span><div class="field has-unit"><input id="br" inputmode="numeric" maxlength="3" value="20"><span class="unit">년</span></div></label>
+              </div>
             </div>
             <div class="mode is-empty" id="mode"><iconify-icon icon="solar:info-circle-linear"></iconify-icon><div><b>보험료를 하나 이상 넣어주세요</b><span>넣은 보험료에 따라 제안서 구성이 자동으로 바뀌어요</span></div></div>
           </div>
@@ -159,15 +177,39 @@
         try { el.setSelectionRange(pos, pos); } catch (err) { /* 일부 입력기 */ }
       });
     });
-    $('age').addEventListener('input', (e) => { e.target.value = digits(e.target.value).slice(0, 3); });
+    ['age', 'ar', 'bp', 'bm', 'br'].forEach((id) => {
+      $(id).addEventListener('input', (e) => { e.target.value = digits(e.target.value).slice(0, 3); });
+    });
+
+    let bType = 'm';
+    document.querySelectorAll('[data-bt]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        bType = btn.dataset.bt;
+        document.querySelectorAll('[data-bt]').forEach((x) => x.classList.toggle('is-on', x === btn));
+        document.querySelectorAll('.bt-m').forEach((el) => { el.hidden = bType !== 'm'; });
+        document.querySelectorAll('.bt-r').forEach((el) => { el.hidden = bType !== 'r'; });
+        render();
+      });
+    });
 
     function state() {
       const v = {
         c: $('c').value.trim(), to: $('to').value.trim(), age: digits($('age').value),
         a: digits($('a').value), a20: digits($('a20').value), b: digits($('b').value),
+        ar: digits($('ar').value) || '20', bt: bType,
+        bp: digits(bType === 'r' ? $('br').value : $('bp').value) || '20', bm: digits($('bm').value) || '100',
       };
       v.mode = v.a && v.b ? 'both' : v.a ? 'a' : v.b ? 'b' : '';
       return v;
+    }
+
+    function termProblem(v) {
+      const n = (s) => Number(s);
+      if (v.a && (n(v.ar) < 1 || n(v.ar) > 100)) return '지원일당 갱신 주기를 다시 확인해 주세요';
+      if (v.b && (n(v.bp) < 1 || n(v.bp) > 100)) return '사용일당 기간을 다시 확인해 주세요';
+      if (v.b && bType === 'm' && (n(v.bm) < 50 || n(v.bm) > 120)) return '사용일당 만기 나이를 다시 확인해 주세요';
+      if (v.b && bType === 'm' && v.age && n(v.age) + n(v.bp) > n(v.bm)) return '납입이 끝나는 나이가 만기보다 늦어요';
+      return '';
     }
 
     // 고객에게 보내는 링크: 카톡 미리보기에 고객 성함을 넣어주는 Cloudflare Worker 주소
@@ -191,7 +233,13 @@
       if (v.age) q.set('age', v.age);
       if (v.a) q.set('a', v.a);
       if (v.a && v.a20) q.set('a20', v.a20);
-      if (v.b) q.set('b', v.b);
+      if (v.a) q.set('ar', v.ar);
+      if (v.b) {
+        q.set('b', v.b);
+        q.set('bt', v.bt);
+        q.set('bp', v.bp);
+        if (v.bt === 'm') q.set('bm', v.bm);
+      }
       url.search = q.toString();
       return url.toString();
     }
@@ -206,8 +254,11 @@
     let lastLink = '';
     function render() {
       const v = state();
-      const ageBad = Boolean(v.age) && (Number(v.age) < 1 || Number(v.age) > 119);
-      $('ageErr').textContent = ageBad ? '나이를 다시 확인해 주세요' : '';
+      const ageWrong = Boolean(v.age) && (Number(v.age) < 1 || Number(v.age) > 119);
+      const termMsg = termProblem(v);
+      const ageBad = ageWrong || Boolean(termMsg);
+      $('ageErr').textContent = ageWrong ? '나이를 다시 확인해 주세요' : termMsg;
+      $('a20Lab').textContent = `${v.ar}년`;
       $('planA').classList.toggle('is-on', Boolean(v.a));
       $('planB').classList.toggle('is-on', Boolean(v.b));
       const mode = $('mode');
@@ -248,7 +299,7 @@
       }
     }
 
-    ['c', 'to', 'age', 'a', 'a20', 'b'].forEach((id) => $(id).addEventListener('input', render));
+    ['c', 'to', 'age', 'a', 'a20', 'b', 'ar', 'bp', 'bm', 'br'].forEach((id) => $(id).addEventListener('input', render));
     $('copyLink').addEventListener('click', async () => {
       toast(await copy(buildLink(state())) ? '링크를 복사했어요' : '복사가 안 됐어요. 링크를 길게 눌러 복사해 주세요');
     });

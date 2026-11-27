@@ -48,6 +48,8 @@
     };
     el.textContent = '0';
     requestAnimationFrame(tick);
+    // 화면이 가려져 애니메이션이 멈춰도 최종 금액은 반드시 보이게
+    setTimeout(() => { el.textContent = won(target); }, dur + 150);
   }
 
   /* ---------- 화면 진입 감지 ---------- */
@@ -93,11 +95,13 @@
     const dock = document.getElementById('dock');
     const parallax = [...document.querySelectorAll('[data-parallax]')];
     const hero = document.getElementById('hero');
+    const pill = document.querySelector('.brandpill');
 
     const onScroll = (y) => {
       const max = document.documentElement.scrollHeight - innerHeight;
       if (bar) bar.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
       if (dock && hero) dock.classList.toggle('is-on', y > hero.offsetHeight * 0.6);
+      if (pill && hero) pill.classList.toggle('is-hidden', y > hero.offsetHeight * 0.6);
       if (REDUCED) return;
       parallax.forEach((el) => {
         const rect = el.parentElement.getBoundingClientRect();
@@ -210,17 +214,17 @@
   }
 
   /* ---------- 보험료 흐름 차트 (값은 config.js의 CARE_CFG) ---------- */
-  const YEARS = 30;
-  const SWITCH = 20;
   const plansFromConfig = () => {
-    const cfg = window.CARE_CFG || { a: 74508, aLater: 150000, b: 101350, mode: 'both' };
+    const cfg = window.CARE_CFG || { a: 74508, aLater: 150000, aRenew: 20, b: 101350, bType: 'm', bYears: 20, mode: 'both' };
     const both = cfg.mode === 'both';
     const list = [];
-    if (cfg.a) list.push({ key: 'a', name: both ? '1안' : '지원일당', early: cfg.a, late: cfg.aLater || null, color: 'var(--amber-d)' });
-    if (cfg.b) list.push({ key: 'b', name: both ? '2안' : '사용일당', early: cfg.b, late: 0, color: 'var(--blue)' });
+    // switch: 보험료가 바뀌는 연차(지원일당 갱신, 사용일당 납입 끝 또는 갱신). late: null이면 갱신 시 다시 정해짐
+    if (cfg.a) list.push({ key: 'a', name: both ? '1안' : '지원일당', early: cfg.a, late: cfg.aLater || null, switch: cfg.aRenew || 20, color: 'var(--amber-d)' });
+    if (cfg.b) list.push({ key: 'b', name: both ? '2안' : '사용일당', early: cfg.b, late: cfg.bType === 'r' ? null : 0, switch: cfg.bYears || 20, color: 'var(--blue)' });
     return list;
   };
-  const premiumAt = (plan, year) => (year <= SWITCH ? plan.early : plan.late);
+  const premiumAt = (plan, year) => (year <= plan.switch ? plan.early : plan.late);
+  const chartYears = (plans) => Math.min(60, Math.max(30, Math.ceil((Math.max(...plans.map((p) => p.switch)) + 10) / 10) * 10));
   const niceMax = (v) => {
     const step = v <= 200000 ? 50000 : 100000;
     return { max: Math.ceil((v * 1.08) / step) * step, step };
@@ -251,6 +255,8 @@
       const m = { t: 24, r: narrow ? 14 : 130, b: 34, l: narrow ? 44 : 60 };
       const iw = W - m.l - m.r;
       const ih = H - m.t - m.b;
+      const YEARS = chartYears(plans);
+      const SWITCH = plans[0].switch;
       const peak = Math.max(...plans.map((p) => Math.max(p.early, p.late || 0)));
       const { max: yMax, step } = niceMax(peak);
       const x = (yr) => m.l + (yr / YEARS) * iw;
@@ -261,7 +267,7 @@
 
       el('rect', { class: 'zone', x: x(SWITCH), y: m.t, width: x(YEARS) - x(SWITCH), height: ih, rx: 8 }, svg);
       const zl = el('text', { class: 'dlabel dlabel--sub', x: x(SWITCH) + 8, y: m.t + 18 }, svg);
-      zl.textContent = narrow ? '21년째~' : '21년째부터';
+      zl.textContent = narrow ? `${SWITCH + 1}년째~` : `${SWITCH + 1}년째부터`;
 
       const grid = el('g', { class: 'grid' }, svg);
       const axis = el('g', { class: 'axis' }, svg);
@@ -270,7 +276,8 @@
         const t = el('text', { x: m.l - 10, y: y(v) + 4, 'text-anchor': 'end' }, axis);
         t.textContent = v === 0 ? '0' : `${v / 10000}만`;
       }
-      [1, 5, 10, 15, 20, 25, 30].forEach((yr) => {
+      const tickStep = YEARS <= 40 ? 5 : 10;
+      [1, ...Array.from({ length: YEARS / tickStep }, (_, i) => (i + 1) * tickStep)].forEach((yr) => {
         const t = el('text', { x: x(yr), y: H - 10, 'text-anchor': 'middle' }, axis);
         t.textContent = `${yr}년`;
       });
@@ -283,25 +290,30 @@
       const topEarly = Math.max(...plans.map((q) => q.early));
 
       plans.forEach((p) => {
-        el('path', { class: `ln ln--${p.key}`, d: `M${x(0)},${y(p.early)} H${x(SWITCH)}` }, lines);
-        if (p.key === 'a' && p.late) {
-          el('path', { class: 'ln ln--a ln--dash', d: `M${x(SWITCH)},${y(p.early)} V${y(p.late)} H${x(YEARS)}` }, lines);
-        } else if (p.key === 'b') {
-          el('path', { class: 'ln ln--b', d: `M${x(SWITCH)},${y(p.early)} V${y(0)} H${x(YEARS)}` }, lines);
+        el('path', { class: `ln ln--${p.key}`, d: `M${x(0)},${y(p.early)} H${x(p.switch)}` }, lines);
+        if (p.late === 0) {
+          el('path', { class: `ln ln--${p.key}`, d: `M${x(p.switch)},${y(p.early)} V${y(0)} H${x(YEARS)}` }, lines);
+        } else if (p.late) {
+          el('path', { class: `ln ln--${p.key} ln--dash`, d: `M${x(p.switch)},${y(p.early)} V${y(p.late)} H${x(YEARS)}` }, lines);
         }
         const above = plans.length === 1 || p.early >= topEarly;
         const s = el('text', { class: 'dlabel dlabel--sub', x: x(1), y: y(p.early) + (above ? -10 : 20) }, svg);
         s.textContent = `${p.name} ${won(p.early)}원`;
         if (!narrow) {
-          const endY = p.key === 'a' ? y(p.late || p.early) : y(0);
-          const e1 = el('text', { class: 'dlabel', x: x(YEARS) + 10, y: endY + (p.key === 'b' ? -4 : 4) }, svg);
-          const e2 = el('text', { class: 'dlabel dlabel--sub', x: x(YEARS) + 10, y: endY + (p.key === 'b' ? 12 : 20) }, svg);
-          if (p.key === 'a') {
-            e1.textContent = p.late ? `${p.name} 약 ${p.late % 10000 === 0 ? `${p.late / 10000}만원` : `${won(p.late)}원`}` : p.name;
-            e2.textContent = p.late ? '갱신 예상' : '갱신 시 다시 정해짐';
-          } else {
+          const paidOff = p.late === 0;
+          const endY = paidOff ? y(0) : y(p.late || p.early);
+          const endX = p.late === null ? x(p.switch) + 10 : x(YEARS) + 10;
+          const e1 = el('text', { class: 'dlabel', x: endX, y: endY + (paidOff ? -4 : 4) }, svg);
+          const e2 = el('text', { class: 'dlabel dlabel--sub', x: endX, y: endY + (paidOff ? 12 : 20) }, svg);
+          if (paidOff) {
             e1.textContent = `${p.name} 0원`;
             e2.textContent = '납입 완료';
+          } else if (p.late) {
+            e1.textContent = `${p.name} 약 ${p.late % 10000 === 0 ? `${p.late / 10000}만원` : `${won(p.late)}원`}`;
+            e2.textContent = '갱신 예상';
+          } else {
+            e1.textContent = p.name;
+            e2.textContent = '갱신 시 다시 정해짐';
           }
         }
       });
@@ -321,8 +333,8 @@
           if (v === null) { dots[i].setAttribute('cx', -20); return `${sw}${p.name} 갱신 시 다시 정해짐`; }
           dots[i].setAttribute('cx', x(yr)); dots[i].setAttribute('cy', y(v));
           top = Math.min(top, y(v));
-          if (p.key === 'b' && v === 0) return `${sw}${p.name} 0원 · 납입 완료`;
-          return `${sw}${p.name} ${won(v)}원${p.key === 'a' && yr > SWITCH ? ' (예상)' : ''}`;
+          if (v === 0) return `${sw}${p.name} 0원 · 납입 완료`;
+          return `${sw}${p.name} ${won(v)}원${yr > p.switch ? ' (예상)' : ''}`;
         });
         tip.innerHTML = `<b>${yr}년차 월 보험료</b><br>${rows.join('<br>')}`;
         tip.style.left = `${Math.min(Math.max(x(yr), 90), W - 90)}px`;
@@ -347,6 +359,7 @@
           if (t < 1) requestAnimationFrame(step);
         };
         requestAnimationFrame(step);
+        setTimeout(() => clipRect.setAttribute('width', W), dur + 150);
       }
     };
 
