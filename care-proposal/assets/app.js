@@ -187,8 +187,11 @@
   function initCalc() {
     const range = document.getElementById('days');
     if (!range) return;
-    const state = { hosp: 'general', when: 'now' };
-    const out = { day: document.getElementById('dayOut'), total: document.getElementById('bOut'), daily: document.getElementById('bDaily'), days: document.getElementById('bDays') };
+    const state = { hosp: 'care', when: 'now' };
+    const out = {
+      day: document.getElementById('dayOut'), total: document.getElementById('bOut'), daily: document.getElementById('bDaily'),
+      days: document.getElementById('bDays'), where: document.getElementById('aWhere'), warn: document.getElementById('bWarn'),
+    };
     const render = () => {
       const days = Number(range.value);
       const daily = DAILY[state.hosp][state.when];
@@ -197,6 +200,8 @@
       out.days.textContent = days;
       out.daily.textContent = `${daily / 10000}만원`;
       out.total.textContent = won(daily * days);
+      out.where.textContent = state.hosp === 'care' ? '요양병원' : '일반병원';
+      out.warn.hidden = state.hosp !== 'care';
       const card = out.total.closest('.result__card');
       card.classList.remove('bump'); void card.offsetWidth; card.classList.add('bump');
     };
